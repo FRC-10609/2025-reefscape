@@ -78,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase{
   private Pose2d estimatedPose = new Pose2d();
   private Pose2d limelightPose = new Pose2d();
 
-  private static Limelight limelight = new Limelight();
+  // private static Limelight limelight = new Limelight();
 
   //Create a SysIdRoutine object for characterizing the drive
   private final SysIdRoutine sysIdRoutine = 
@@ -198,18 +198,18 @@ public class DriveSubsystem extends SubsystemBase{
     checkInitialAngle();
     updateOdometry();
     updateEstimatedPose();
-    limelight.update();
-    limelightPose = limelight.getVisionBotPose();
+    // limelight.update();
+    // limelightPose = limelight.getVisionBotPose();
     
-    if (limelightPose != null) { // Limelight mode
+    // if (limelightPose != null) { // Limelight mode
       
-      double currentTimestamp = limelight.getTimestampSeconds(limelight.getTotalLatency());
+    //   double currentTimestamp = limelight.getTimestampSeconds(limelight.getTotalLatency());
       
-      if (limelight.visionAccurate(limelightPose)) 
-      {
-        poseEstimator.addVisionMeasurement(limelightPose, currentTimestamp);
-      }
-    }
+    //   if (limelight.visionAccurate(limelightPose)) 
+    //   {
+    //     poseEstimator.addVisionMeasurement(limelightPose, currentTimestamp);
+    //   }
+    // }
     updateDashboard();
   }
   
