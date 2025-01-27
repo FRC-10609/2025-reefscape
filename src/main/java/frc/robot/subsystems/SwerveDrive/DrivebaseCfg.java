@@ -7,9 +7,9 @@ import edu.wpi.first.math.util.Units;
 public class DrivebaseCfg {
     //User Defined Configs
     //Wheel Base
-    public static final double WHEEL_BASE_WIDTH = Units.inchesToMeters(19.75);
-    public static final double WHEEL_BASE_LENGTH = Units.inchesToMeters(19.75);
-    public static final double WHEEL_BASE_DIAMETER = Units.inchesToMeters(27.931);
+    public static final double WHEEL_BASE_WIDTH = .555;
+    public static final double WHEEL_BASE_LENGTH = .555;
+    public static final double WHEEL_BASE_DIAMETER = .779;
 
     //Driver constants
     public static final double ROTATION_GAIN = 0.3;
