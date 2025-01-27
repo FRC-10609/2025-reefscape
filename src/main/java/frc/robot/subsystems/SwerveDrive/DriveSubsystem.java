@@ -69,14 +69,14 @@ public class DriveSubsystem extends SubsystemBase{
 
   private final SwerveDriveKinematics kinematics = DrivebaseCfg.KINEMATICS;
 
-  //public final SwerveDrivePoseEstimator odometry;
+  // public final SwerveDrivePoseEstimator odometry;
   public final SwerveDriveOdometry odometry;
 
   public final SwerveDrivePoseEstimator poseEstimator;
 
   private Pose2d pose = new Pose2d();
   private Pose2d estimatedPose = new Pose2d();
-  private Pose2d limelightPose = new Pose2d();
+  // private Pose2d limelightPose = new Pose2d();
 
   // private static Limelight limelight = new Limelight();
 
@@ -129,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase{
 
   public DriveSubsystem() {
 
-    //this.odometry = new SwerveDrivePoseEstimator(kinematics, getGyroRotation2d(), getModulePositions(), pose);
+    // this.odometry = new SwerveDrivePoseEstimator(kinematics, getGyroRotation2d(), getModulePositions(), pose);
     this.odometry = new SwerveDriveOdometry(kinematics, getGyroRotation2d(), getModulePositions());
 
     this.poseEstimator = new SwerveDrivePoseEstimator(
