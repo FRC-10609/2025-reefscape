@@ -72,9 +72,12 @@ public class DriverCommands extends Command {
         DrivebaseCfg.MAX_SPEED_METERS_PER_SECOND;
 
     //Need to convert joystick input (-1 to 1) into rad/s!!! 100% == MAX Attainable Rotation
-    rotationSpeed = turnLimiter.calculate(((MathUtil.applyDeadband(Driver.getRightX(), 0.1)) * teleopRotationGain) *
-        DrivebaseCfg.MAX_ROTATION_RADIANS_PER_SECOND);
-    
+    /*rotationSpeed = turnLimiter.calculate(((MathUtil.applyDeadband(Driver.getRightX(), 0.1)) * 
+        calculateDriveMagnitude(teleopRotationGain)) *
+        DrivebaseCfg.MAX_ROTATION_RADIANS_PER_SECOND);*/
+        
+      rotationSpeed = ((MathUtil.applyDeadband(Driver.getRightX(), 0.1)) * 
+        calculateDriveMagnitude(teleopRotationGain)) * DrivebaseCfg.MAX_ROTATION_RADIANS_PER_SECOND;
 
     SmartDashboard.putNumber("Forward In", forwardSpeed);
     SmartDashboard.putNumber("Strafe In", strafeSpeed);
@@ -100,5 +103,21 @@ public class DriverCommands extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  private double calculateDriveMagnitude(double rotation_gain){
+
+    //Magnitude of the driver input is magnitude = sqrt(x^2 + y^2)
+    double magnitude = Math.sqrt(Math.pow(Driver.getLeftX(),2) + Math.pow(Driver.getLeftY(),2));
+
+    if(magnitude > 1.0){
+      magnitude = 1.0;
+    }else if (magnitude < rotation_gain){
+      magnitude = rotation_gain;
+    }else{
+      //value is within range
+    }
+
+    return(magnitude);
   }
 }
