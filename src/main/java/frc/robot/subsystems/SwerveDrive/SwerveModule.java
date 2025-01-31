@@ -18,10 +18,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.MutVelocity;
 import edu.wpi.first.units.measure.Voltage;
 
 public class SwerveModule{
@@ -104,6 +102,45 @@ public class SwerveModule{
     this.turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
   }
 
+   /**
+   * Sets the desired state for the module.
+   *
+   * @param desiredState Desired state with speed and angle.
+   */
+  public void setDesiredState(SwerveModuleState desiredState) {
+    
+    //Set SmartDashboard variables
+    commandedSpeed = desiredState.speedMetersPerSecond;
+    commandedAngle = desiredState.angle.getRadians();
+
+    if(Math.abs(desiredState.speedMetersPerSecond) < .2){
+      driveMotor.set(0);
+      turningMotor.set(0);
+      return;
+    }else{
+      // Optimize the reference state to avoid spinning further than 90 degrees
+      var rotation = new Rotation2d(getAbsPositionZeroed());
+      desiredState.optimize(rotation);
+      
+      // Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
+      // direction of travel that can occur when modules change directions. This results in smoother
+      // driving.
+      desiredState.cosineScale(rotation);
+
+      //Set SmartDashboard variables
+      commandedSpeed = desiredState.speedMetersPerSecond;
+      commandedAngle = desiredState.angle.getRadians();
+
+      //Calculate the motor speed output && feedforward and pass the values to the SPARK PID Controller object
+      var desiredSpeed = desiredState.speedMetersPerSecond;
+      drivePIDController.setReference(desiredSpeed, SparkMax.ControlType.kVelocity);
+
+      // Calculate the turning motor output from the turning PID controller.
+      final double turnOutput = turningPIDController.calculate(getAbsPositionZeroed(), desiredState.angle.getRadians());
+      turningMotor.setVoltage(turnOutput);
+    }
+  }
+
   /**
    * Returns the current state of the module.
    *
@@ -115,10 +152,6 @@ public class SwerveModule{
 
   public double getVelocity() {
     return driveEncoder.getVelocity();
-  }
-
-  public Rotation2d getRotation2d() {
-    return new Rotation2d(Units.degreesToRadians(getAbsPositionZeroed()));
   }
 
   /**
@@ -154,44 +187,6 @@ public class SwerveModule{
 
   public double getCommandedAngle(){
     return commandedAngle;
-  }
-
-  public double getControllerSetpoint(){
-    return driveMotor.get();
-  }
-
-  /**
-   * Sets the desired state for the module.
-   *
-   * @param desiredState Desired state with speed and angle.
-   */
-  public void setDesiredState(SwerveModuleState desiredState) {
-    
-    //Set SmartDashboard variables
-    commandedSpeed = desiredState.speedMetersPerSecond;
-    commandedAngle = desiredState.angle.getRadians();
-
-    if(Math.abs(desiredState.speedMetersPerSecond) < .2){
-      driveMotor.set(0);
-      turningMotor.set(0);
-      return;
-    }else{
-      // Optimize the reference state to avoid spinning further than 90 degrees
-      desiredState.optimize(new Rotation2d(getAbsPositionZeroed()));
-
-      //Set SmartDashboard variables
-      commandedSpeed = desiredState.speedMetersPerSecond;
-      commandedAngle = desiredState.angle.getRadians();
-
-      //Calculate the motor speed output and pass the value to the SPARK PID Controller object
-      //var desiredSpeed = desiredState.speedMetersPerSecond/DrivebaseCfg.MAX_SPEED_METERS_PER_SECOND;
-      var desiredSpeed = desiredState.speedMetersPerSecond;
-      drivePIDController.setReference(desiredSpeed, SparkMax.ControlType.kVelocity);
-
-      // Calculate the turning motor output from the turning PID controller.
-      final double turnOutput = turningPIDController.calculate(getAbsPositionZeroed(), desiredState.angle.getRadians());
-      turningMotor.setVoltage(turnOutput);
-    }
   }
 
   public void setSysIDVoltage(Voltage volts){
