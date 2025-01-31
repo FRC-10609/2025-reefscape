@@ -60,9 +60,6 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-### Linux ###
-*~
-
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
 
@@ -185,3 +182,48 @@ compile_commands.json
 
 # Eclipse generated file for annotation processors
 .factorypath
+.gradle/8.11/checksums/checksums.lock
+.gradle/8.11/checksums/checksums.lock
+.gradle/8.11/fileHashes/fileHashes.lock
+
+
+# WPILib
+bin/
+build/
+dist/
+sysProps.xml
+workbench.xmi
+
+# IDE
+*.ipr
+*.iml
+*.iws
+out/
+tmp/
+.settings/
+.loadpath
+.project
+/.idea
+.classpath
+
+# Toast/GradleRIO
+run/
+.gradle/
+gradle/.launch/
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.AppleDouble
+.LSOverride
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# backup files
+*~
+
+# directory for XML generated after running junit tests through ant
+junit/
