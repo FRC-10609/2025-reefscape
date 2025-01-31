@@ -30,14 +30,12 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.GameState;
 
 public class DriveSubsystem extends SubsystemBase{
   
   public static boolean isTeleOp = false;
 
   public boolean isTurning = false;
-  public double targetAngle = 0.0;
   public double turnCommand = 0.0;
   public double fieldXCommand = 0;
   public double fieldYCommand = 0;
@@ -69,16 +67,16 @@ public class DriveSubsystem extends SubsystemBase{
 
   private final SwerveDriveKinematics kinematics = DrivebaseCfg.KINEMATICS;
 
-  // public final SwerveDrivePoseEstimator odometry;
+  //public final SwerveDrivePoseEstimator odometry;
   public final SwerveDriveOdometry odometry;
 
   public final SwerveDrivePoseEstimator poseEstimator;
 
   private Pose2d pose = new Pose2d();
   private Pose2d estimatedPose = new Pose2d();
-  // private Pose2d limelightPose = new Pose2d();
+  private Pose2d limelightPose = new Pose2d();
 
-  // private static Limelight limelight = new Limelight();
+  private static Limelight limelight = new Limelight();
 
   //Create a SysIdRoutine object for characterizing the drive
   private final SysIdRoutine sysIdRoutine = 
@@ -129,7 +127,8 @@ public class DriveSubsystem extends SubsystemBase{
 
   public DriveSubsystem() {
 
-    // this.odometry = new SwerveDrivePoseEstimator(kinematics, getGyroRotation2d(), getModulePositions(), pose);
+    //this.odometry = new SwerveDrivePoseEstimator(kinematics, getGyroRotation2d(), getModulePositions(), pose);
+    resetGyro(0);
     this.odometry = new SwerveDriveOdometry(kinematics, getGyroRotation2d(), getModulePositions());
 
     this.poseEstimator = new SwerveDrivePoseEstimator(
@@ -153,12 +152,6 @@ public class DriveSubsystem extends SubsystemBase{
     configAutoBuilder(); 
   }
 
-  private void checkInitialAngle() {
-    if (GameState.isTeleop() && GameState.isFirst()) { 
-      targetAngle = getIMU_Yaw();
-    }
-  }
-
   private double getIMU_Yaw() {
     var currentHeading = gyro.getYaw(); 
     return(currentHeading.getValueAsDouble());
@@ -180,7 +173,6 @@ public class DriveSubsystem extends SubsystemBase{
     SmartDashboard.putNumber("Drive Robot Relative Rotation Command", relativeCommands.omegaRadiansPerSecond);
 
     SmartDashboard.putNumber("Gyro Yaw", getIMU_Yaw());
-    SmartDashboard.putNumber("Target Angle", targetAngle);
 
     //Pose Info
     SmartDashboard.putString("FMS Alliance", DriverStation.getAlliance().toString());
@@ -195,55 +187,32 @@ public class DriveSubsystem extends SubsystemBase{
   
   @Override
   public void periodic() {
-    checkInitialAngle();
     updateOdometry();
     updateEstimatedPose();
-    // limelight.update();
-    // limelightPose = limelight.getVisionBotPose();
+    limelight.update();
+    limelightPose = limelight.getVisionBotPose();
     
-    // if (limelightPose != null) { // Limelight mode
+    if (limelightPose != null) { // Limelight mode
       
-    //   double currentTimestamp = limelight.getTimestampSeconds(limelight.getTotalLatency());
+      double currentTimestamp = limelight.getTimestampSeconds(limelight.getTotalLatency());
       
-    //   if (limelight.visionAccurate(limelightPose)) 
-    //   {
-    //     poseEstimator.addVisionMeasurement(limelightPose, currentTimestamp);
-    //   }
-    // }
+      if (limelight.visionAccurate(limelightPose)) 
+      {
+        poseEstimator.addVisionMeasurement(limelightPose, currentTimestamp);
+      }
+    }
     updateDashboard();
   }
   
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    checkInitialAngle();
-
-    if (GameState.isTeleop()) {
-      if (Math.abs(rot) > 0) {
-        //Driver is commanding rotation, 
-        isTurning = true;
-        targetAngle = getIMU_Yaw();
-      } 
-      else if (rot == 0 && isTurning) {
-        //Driver stopped commanding a turn
-        isTurning = false;
-      }
-
-      if (isTurning) {
-        turnCommand = rot;
-      }
-      else { 
-        turnCommand = (targetAngle - getIMU_Yaw()) * DrivebaseCfg.GO_STRAIGHT_GAIN;
-      }
-      
-    }
-    
     //Set Dashboard variables
     fieldXCommand = xSpeed;
     fieldYCommand = ySpeed;
 
     if(fieldRelative){
-      speedCommands = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turnCommand, getGyroRotation2d());
+      speedCommands = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroRotation2d());
     } else {
-      speedCommands.omegaRadiansPerSecond = turnCommand;
+      speedCommands.omegaRadiansPerSecond = rot;
       speedCommands.vxMetersPerSecond = xSpeed;
       speedCommands.vyMetersPerSecond = ySpeed;
     }
@@ -353,7 +322,6 @@ public class DriveSubsystem extends SubsystemBase{
 
   public void resetGyro(double angle) {
     gyro.setYaw(angle);
-    targetAngle = angle;
   }
 
   public void resetModules() {
@@ -364,9 +332,17 @@ public class DriveSubsystem extends SubsystemBase{
   }
 
   public void reset() {
-    resetGyro(0);
+    //resetGyro(0);
     resetModules();
     resetOdometry(pose);
+  }
+
+  public void resetGyroToPose(){
+    //This method will get called from teleopInit() via RobotContainer
+    //First, reset the gyro with the heading from the robot pose
+    resetGyro(pose.getRotation().getDegrees());
+    //Now, reset the pose updated gyro heading
+    odometry.resetRotation(getGyroRotation2d());
   }
 
   @SuppressWarnings("unused")
