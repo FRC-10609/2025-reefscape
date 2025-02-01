@@ -85,6 +85,7 @@ public class SwerveModule{
 
     //Setup Turn Motor Config
     SparkMaxConfig turnConfig = new SparkMaxConfig();
+    turnConfig.idleMode(SwerveModuleCfg.TURN_IDLE_MODE); 
     turnConfig.inverted(ChassisMotorCfg.ANGLE_MOTOR_REVERSED[moduleId]);
 
     //Finally, write all the config settings to the turn controller!
@@ -103,7 +104,7 @@ public class SwerveModule{
   }
 
    /**
-   * Sets the desired state for the module.
+   * Sets the desired state for the module
    *
    * @param desiredState Desired state with speed and angle.
    */
