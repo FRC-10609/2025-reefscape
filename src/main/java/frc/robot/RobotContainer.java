@@ -5,10 +5,14 @@
 package frc.robot;
 
 import frc.robot.subsystems.PowerManagement.MockDetector;
+import frc.robot.Constants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
+import frc.robot.subsystems.Climber.ClimberSubsystem;
+import frc.robot.commands.ElevatorCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -31,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -38,12 +43,8 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser; 
 
-  /* sample
+  // The driver's controller
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  */
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -51,19 +52,19 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-
+    
     //Register named commands. Must register all commands we want Pathplanner to execute.
     NamedCommands.registerCommand("Stop Drive Motors", new StopDriveMotors(driveSubsystem));
   
     //Build an Autochooser from SmartDashboard selection.  Default will be Commands.none()
-
+    
     //e.g new PathPlannerAuto("MiddleAutoAMPFinal");
     new PathPlannerAuto("Example Auto");
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
-
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -76,14 +77,17 @@ public class RobotContainer {
   private void configureBindings() {
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
+
+    new Trigger(Driver.Controller.a()).whileTrue(new ElevatorCommand(climberSubsystem, 1));
+    new Trigger(Driver.Controller.b()).whileTrue(new ElevatorCommand(climberSubsystem, -1));
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
     //SysID stuff - comment out on competition build!
-    Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
