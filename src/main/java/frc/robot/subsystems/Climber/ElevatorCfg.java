@@ -12,7 +12,7 @@ public class ElevatorCfg {
     public static final int CLIMBER_ID = 2;
     public static final SparkFlex CLIMBER = new SparkFlex(CLIMBER_ID, SparkLowLevel.MotorType.kBrushless);
 
-    public static final double CLIMBER_GEAR_RATIO = 1/45;//TBD with design
+    public static final double CLIMBER_GEAR_RATIO = 1/45.0;//TBD with design
 
     public static final SparkBaseConfig.IdleMode CLIMBER_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
     public static final boolean CLIMBER_MOTOR_REVERSED = false;
