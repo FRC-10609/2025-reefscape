@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Elevator.ElevatorSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
@@ -11,7 +12,6 @@ import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
-import frc.robot.subsystems.Climber.ElevatorSubsystem;
 import frc.robot.commands.ElevatorCommand; 
 
 import com.pathplanner.lib.auto.AutoBuilder;
