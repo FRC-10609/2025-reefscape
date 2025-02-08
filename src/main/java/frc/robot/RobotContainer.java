@@ -12,7 +12,7 @@ import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
-import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ElevatorCommand; // TODO:
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -76,10 +76,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //Drivetrain
-    driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
+    driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN 
 
-    new Trigger(Driver.Controller.a()).whileTrue(new ElevatorCommand(climberSubsystem, 1));
-    new Trigger(Driver.Controller.b()).whileTrue(new ElevatorCommand(climberSubsystem, -1));
+    new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorCommand(climberSubsystem, () -> Driver.getLeftTrigger()));
+    new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorCommand(climberSubsystem, () -> -Driver.getRightTrigger()));
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 

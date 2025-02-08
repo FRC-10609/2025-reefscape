@@ -2,11 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
+import java.util.function.Supplier;
 
 public class ElevatorCommand extends Command {
     ClimberSubsystem climber;
-    int pwr;
-    public ElevatorCommand(ClimberSubsystem climber, int pwr){
+    Supplier<Double> pwr;
+    public ElevatorCommand(ClimberSubsystem climber, Supplier<Double> pwr){
     this.climber = climber;
     this.pwr = pwr;
     addRequirements(climber);
@@ -16,7 +17,7 @@ public class ElevatorCommand extends Command {
 
    @Override
    public void execute(){
-       climber.setClimberPower(pwr);
+       climber.setClimberPower(pwr.get());
    }
    @Override
    public void end(boolean interrupted){
