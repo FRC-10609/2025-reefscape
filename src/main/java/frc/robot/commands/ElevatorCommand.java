@@ -1,15 +1,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climber.ClimberSubsystem;
+import frc.robot.subsystems.Climber.ElevatorSubsystem;
 import java.util.function.Supplier;
-import frc.robot.subsystems.Climber.ClimberCfg;
+
+import frc.robot.Driver;
+import frc.robot.subsystems.Climber.ElevatorCfg;
 
 public class ElevatorCommand extends Command {
-    ClimberSubsystem climber;
+    ElevatorSubsystem climber;
     Supplier<Double> pwr;
     int pos;
-    public ElevatorCommand(ClimberSubsystem climber, Supplier<Double> pwr, int pos){
+    public ElevatorCommand(ElevatorSubsystem climber, Supplier<Double> pwr, int pos){
     this.climber = climber;
     this.pwr = pwr;
     this.pos = pos;
@@ -20,8 +22,8 @@ public class ElevatorCommand extends Command {
 
    @Override
    public void execute(){
-        if (ClimberCfg.CLIMBER_POSITIONS[pos] != null){
-            climber.setClimberPosition(ClimberCfg.CLIMBER_POSITIONS[pos]);
+        if (ElevatorCfg.CLIMBER_POSITIONS[pos] != null){
+            climber.setClimberPosition(ElevatorCfg.CLIMBER_POSITIONS[pos]);
         }else{
             climber.setClimberPower(pwr.get());
         }
@@ -32,6 +34,13 @@ public class ElevatorCommand extends Command {
    }
 
    @Override 
-   public boolean isFinished(){return false;}
+   public boolean isFinished(){
+    if(pos == 0){
+        return (Driver.Controller.getLeftTriggerAxis()+Driver.Controller.getRightTriggerAxis())==0;
+    }else{
+        return climber.isAtPosition(ElevatorCfg.CLIMBER_POSITIONS[pos]);
+    }
+    
+}
 }
 

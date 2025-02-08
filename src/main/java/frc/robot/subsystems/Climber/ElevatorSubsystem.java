@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.ADIS16448_IMU.CalibrationTime;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClimberSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new Climber. */
 
   private final SparkFlex climber;
@@ -25,27 +25,27 @@ public class ClimberSubsystem extends SubsystemBase {
   
   private final SparkClosedLoopController climberPIDComController;
 
-  public ClimberSubsystem() {
+  public ElevatorSubsystem() {
     //Do intialization stuff here
-    climber = ClimberCfg.CLIMBER;
+    climber = ElevatorCfg.CLIMBER;
     climberEncoder = climber.getEncoder();
 
     //Setup Encoder Config
     EncoderConfig climbEncoderConfig = new EncoderConfig();
-    climbEncoderConfig.positionConversionFactor(ClimberCfg.CLIMBER_GEAR_RATIO);
-    climbEncoderConfig.velocityConversionFactor(ClimberCfg.CLIMBER_GEAR_RATIO);
+    climbEncoderConfig.positionConversionFactor(ElevatorCfg.CLIMBER_GEAR_RATIO);
+    climbEncoderConfig.velocityConversionFactor(ElevatorCfg.CLIMBER_GEAR_RATIO);
 
     climberPIDComController = climber.getClosedLoopController();
     ClosedLoopConfig climberPIDConfig = new ClosedLoopConfig();
-    climberPIDConfig.p(ClimberCfg.CLIMBER_P_GAIN);
-    climberPIDConfig.i(ClimberCfg.CLIMBER_I_GAIN);
-    climberPIDConfig.d(ClimberCfg.CLIMBER_D_GAIN);
+    climberPIDConfig.p(ElevatorCfg.CLIMBER_P_GAIN);
+    climberPIDConfig.i(ElevatorCfg.CLIMBER_I_GAIN);
+    climberPIDConfig.d(ElevatorCfg.CLIMBER_D_GAIN);
 
     //Setup Motor Config
     SparkMaxConfig climbMotorConfig = new SparkMaxConfig();
-    climbMotorConfig.idleMode(ClimberCfg.CLIMBER_IDLE_MODE);
-    climbMotorConfig.inverted(ClimberCfg.CLIMBER_MOTOR_REVERSED);
-    climbMotorConfig.smartCurrentLimit(ClimberCfg.CLIMBER_CURRENT_LIMIT);
+    climbMotorConfig.idleMode(ElevatorCfg.CLIMBER_IDLE_MODE);
+    climbMotorConfig.inverted(ElevatorCfg.CLIMBER_MOTOR_REVERSED);
+    climbMotorConfig.smartCurrentLimit(ElevatorCfg.CLIMBER_CURRENT_LIMIT);
     
     //Apply the encoder config to the SparkMax
     climbMotorConfig.apply(climbEncoderConfig);
@@ -71,5 +71,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public double getClimberPosition(){
     return climberEncoder.getPosition();
+  }
+  public boolean isAtPosition(double position){
+    return climberEncoder.getPosition() == position;
   }
 }

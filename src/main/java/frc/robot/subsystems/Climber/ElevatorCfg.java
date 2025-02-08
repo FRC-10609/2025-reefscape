@@ -7,7 +7,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkBaseConfig;
 
-public class ClimberCfg {
+public class ElevatorCfg {
 
     public static final int CLIMBER_ID = 2;
     public static final SparkFlex CLIMBER = new SparkFlex(CLIMBER_ID, SparkLowLevel.MotorType.kBrushless);

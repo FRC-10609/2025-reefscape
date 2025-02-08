@@ -11,7 +11,7 @@ import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
-import frc.robot.subsystems.Climber.ClimberSubsystem;
+import frc.robot.subsystems.Climber.ElevatorSubsystem;
 import frc.robot.commands.ElevatorCommand; 
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  public final ElevatorSubsystem climberSubsystem = new ElevatorSubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
