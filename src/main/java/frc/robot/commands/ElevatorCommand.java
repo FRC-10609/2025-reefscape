@@ -35,9 +35,9 @@ public class ElevatorCommand extends Command {
 
    @Override 
    public boolean isFinished(){
-    if(pos == 0){
-        return (Driver.Controller.getLeftTriggerAxis()+Driver.Controller.getRightTriggerAxis())==0;
-    }else{
+    if (pos == 0) {
+        return (Driver.Controller.getLeftTriggerAxis() + Driver.Controller.getRightTriggerAxis()) == 0;
+    } else {
         return climber.isAtPosition(ElevatorCfg.CLIMBER_POSITIONS[pos]);
     }
     
