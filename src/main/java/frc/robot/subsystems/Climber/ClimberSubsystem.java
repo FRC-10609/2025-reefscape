@@ -7,18 +7,20 @@ package frc.robot.subsystems.Climber;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU.CalibrationTime;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new Climber. */
 
-  private final SparkMax climber;
+  private final SparkFlex climber;
   private final RelativeEncoder climberEncoder;
   
   private final SparkClosedLoopController climberPIDComController;
@@ -56,6 +58,7 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Elevator pos.:", getClimberPosition());
   }
 
   public void setClimberPower(double power){

@@ -12,7 +12,7 @@ import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 import frc.robot.subsystems.Climber.ClimberSubsystem;
-import frc.robot.commands.ElevatorCommand; // TODO:
+import frc.robot.commands.ElevatorCommand; 
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
@@ -42,6 +43,7 @@ public class RobotContainer {
   //public final Vision visionSubsystem = new Vision();
 
   private final SendableChooser<Command> autoChooser; 
+  private int Elevator_pos = 0;
 
   // The driver's controller
 
@@ -78,8 +80,25 @@ public class RobotContainer {
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN 
 
-    new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorCommand(climberSubsystem, () -> Driver.getLeftTrigger()));
-    new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorCommand(climberSubsystem, () -> -Driver.getRightTrigger()));
+    new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> Elevator_pos = 0),
+        new ElevatorCommand(climberSubsystem, () -> Driver.getLeftTrigger(), Elevator_pos)
+        ));
+
+    new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> Elevator_pos = 0),
+        new ElevatorCommand(climberSubsystem, () -> -Driver.getRightTrigger(), Elevator_pos)
+    ));
+
+    new Trigger(Driver.Controller.povUp().and(() -> Elevator_pos <= 3)).whileTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> Elevator_pos++),
+      new ElevatorCommand(climberSubsystem, () -> 0.5, Elevator_pos)
+    ));
+
+    new Trigger(Driver.Controller.povDown().and(() -> Elevator_pos >= 1)).whileTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> Elevator_pos--),
+      new ElevatorCommand(climberSubsystem, () -> 0.5, Elevator_pos)
+    ));
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 

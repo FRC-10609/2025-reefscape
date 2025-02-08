@@ -2,16 +2,17 @@ package frc.robot.subsystems.Climber;
 
 import java.io.File;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.None;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 
 public class ClimberCfg {
 
     public static final int CLIMBER_ID = 2;
-    public static final SparkMax CLIMBER = new SparkMax(CLIMBER_ID, SparkLowLevel.MotorType.kBrushless);
+    public static final SparkFlex CLIMBER = new SparkFlex(CLIMBER_ID, SparkLowLevel.MotorType.kBrushless);
 
-    public static final double CLIMBER_GEAR_RATIO = 1/25.0;//TBD with design
+    public static final double CLIMBER_GEAR_RATIO = 1/81.0;//TBD with design
 
     public static final SparkBaseConfig.IdleMode CLIMBER_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
     public static final boolean CLIMBER_MOTOR_REVERSED = false;
@@ -20,5 +21,7 @@ public class ClimberCfg {
     public static final double CLIMBER_P_GAIN = 0;
     public static final double CLIMBER_I_GAIN = 0;
     public static final double CLIMBER_D_GAIN = 0;
+
+    public static final Double[] CLIMBER_POSITIONS = {null, 1.0, 2.0, 3.0, 4.0};
 
 }
