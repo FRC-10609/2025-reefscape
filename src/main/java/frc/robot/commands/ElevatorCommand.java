@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.Supplier;
 
 import frc.robot.Driver;
-import frc.robot.subsystems.Elevator.ElevatorCfg;
-import frc.robot.subsystems.Elevator.ElevatorSubsystem;
+import frc.robot.subsystems.CoralDelivery.ElevatorCfg;
+import frc.robot.subsystems.CoralDelivery.ElevatorSubsystem;
 
 public class ElevatorCommand extends Command {
     ElevatorSubsystem climber;
@@ -37,12 +37,12 @@ public class ElevatorCommand extends Command {
 
    @Override 
    public boolean isFinished(){
-    if (pos == 0) {
-        return (Driver.Controller.getLeftTriggerAxis() + Driver.Controller.getRightTriggerAxis()) == 0;
-    } else {
+    if (pos != 0) {
         return climber.isAtPosition(ElevatorCfg.CLIMBER_POSITIONS[pos]);
     }
+    return false;
+ }
     
 }
-}
+
 
