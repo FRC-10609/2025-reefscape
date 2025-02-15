@@ -9,7 +9,7 @@ public class ElevatorCfg {
 
     public static final SparkMax ELEVATOR_MOTOR = new SparkMax(ELEVATOR_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
 
-    public static final double ELEVATOR_GEAR_RATIO = 1/45;
+    public static final double ELEVATOR_GEAR_RATIO = 1/45.0;
     public static final double SPROCKET_DIA_CM = 4.47;
     public static final double ELEVATOR_POS_CONVERSION_CM = 2*(ELEVATOR_GEAR_RATIO*SPROCKET_DIA_CM*Math.PI);
 

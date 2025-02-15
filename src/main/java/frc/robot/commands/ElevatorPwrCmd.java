@@ -8,11 +8,11 @@ import frc.robot.subsystems.CoralDelivery.ElevatorSubsystem;
 
 public class ElevatorPwrCmd extends Command {
     private final ElevatorSubsystem elevatorSubsystem;
-    private final double power;
+    private final Supplier<Double> power;
 
     public ElevatorPwrCmd(ElevatorSubsystem elevatorSubsystem, Supplier<Double> power) {
         this.elevatorSubsystem = elevatorSubsystem;
-        this.power = power.get();
+        this.power = power;
         addRequirements(elevatorSubsystem);
     }
 
@@ -23,12 +23,15 @@ public class ElevatorPwrCmd extends Command {
     
     @Override
     public void execute() {
-        elevatorSubsystem.setElevatorPower(power);        
+        elevatorSubsystem.setElevatorPower(power.get());        
     }
-
+    @Override
+    public void end(boolean interrupted){
+        elevatorSubsystem.setElevatorPower(0);
+    }
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
     
 }

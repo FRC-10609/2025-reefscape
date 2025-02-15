@@ -81,9 +81,9 @@ public class RobotContainer {
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
 
-    new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> Driver.getLeftTrigger()));
+    Driver.Controller.leftTrigger(0.1).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> Driver.getLeftTrigger()));
 
-    new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> -Driver.getRightTrigger()));
+    Driver.Controller.rightTrigger(0.1).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> -Driver.getRightTrigger()));
 
     // new Trigger(Driver.Controller.a()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 1));
 
