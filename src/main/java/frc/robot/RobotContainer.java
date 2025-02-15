@@ -4,14 +4,16 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
+import frc.robot.subsystems.CoralDelivery.ElevatorSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.Constants; 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriverCommands;
+import frc.robot.commands.ElevatorPwrCmd;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
+import frc.robot.commands.ElevatorSetPositionCmd;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -35,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final CoralDeliverySubsystem coralSubsystem = new CoralDeliverySubsystem();
+  public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -79,9 +81,9 @@ public class RobotContainer {
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
 
-    // new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorCommand(elevatorSubsystem, () -> Driver.getLeftTrigger(), 0));
+    new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> Driver.getLeftTrigger()));
 
-    // new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorCommand(elevatorSubsystem, () -> -Driver.getRightTrigger(), 0));
+    new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> -Driver.getRightTrigger()));
 
     // new Trigger(Driver.Controller.a()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 1));
 
@@ -93,11 +95,11 @@ public class RobotContainer {
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
-    Driver.Controller.a().onTrue(new InstantCommand(coralSubsystem::setElevatorLoadPosition));
-    Driver.Controller.b().onTrue(new InstantCommand(coralSubsystem::setElevatorLONEPosition));
-    Driver.Controller.x().onTrue(new InstantCommand(coralSubsystem::setElevatorLTWOPosition));
-    Driver.Controller.y().onTrue(new InstantCommand(coralSubsystem::setElevatorLTHREEPosition));
-    Driver.Controller.leftBumper().onTrue(new InstantCommand(coralSubsystem::setElevatorLFOURPosition));
+    Driver.Controller.a().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 0));
+    Driver.Controller.b().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 1));
+    Driver.Controller.x().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 2));
+    Driver.Controller.y().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 3));
+    Driver.Controller.leftBumper().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 4));
 
 
     //SysID stuff - comment out on competition build!
