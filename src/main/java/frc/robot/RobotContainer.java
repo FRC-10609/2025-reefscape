@@ -4,12 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.PowerManagement.MockDetector;
-import frc.robot.commands.DriverCommands;
-import frc.robot.commands.ResetGyro;
-import frc.robot.commands.StopDriveMotors;
-import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -17,10 +11,15 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.DriverCommands;
+import frc.robot.commands.PivotSetPositionCmd;
+import frc.robot.commands.ResetGyro;
+import frc.robot.commands.StopDriveMotors;
+import frc.robot.subsystems.CorallIntake.CoralDeliverySubsystem;
+import frc.robot.subsystems.PowerManagement.MockDetector;
+import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final CoralDeliverySubsystem corallSubSystem = new CoralDeliverySubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -80,10 +80,11 @@ public class RobotContainer {
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
     //SysID stuff - comment out on competition build!
-    Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    Driver.Controller.a().onTrue(new PivotSetPositionCmd(corallSubSystem, 0));
+    Driver.Controller.b().onTrue(new PivotSetPositionCmd(corallSubSystem, 1));
+    Driver.Controller.x().onTrue(new PivotSetPositionCmd(corallSubSystem, 2));
+    Driver.Controller.y().onTrue(new PivotSetPositionCmd(corallSubSystem, 3));
+    Driver.Controller.leftBumper().onTrue(new PivotSetPositionCmd(corallSubSystem, 4));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`

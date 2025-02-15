@@ -15,8 +15,10 @@ public class CoralIntakeCfg {
 
     public static final double PIVOT_GEAR_RATIO = 1/60.0;//TBD with design
     public static final double DELIVERY_GEAR_RATIO = 1/5.0;//TBD with design
+    
+    public static final int ENCODER_CPR = 42;
 
-    public static final double PIVOT_ANGLE_CONVERSION_DEG = PIVOT_GEAR_RATIO*360;
+    public static final double PIVOT_ANGLE_CONVERSION_DEG = (PIVOT_GEAR_RATIO*ENCODER_CPR)/360;
 
     public static final SparkBaseConfig.IdleMode PIVOT_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
     public static final SparkBaseConfig.IdleMode DELIVERY_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
@@ -40,10 +42,11 @@ public class CoralIntakeCfg {
      public static final int CORAL_PRESENT_THRESH_MM = 15;
 
      public static final double PIVOT_LOAD_POSITION = 0.0;
-     public static final double PIVOT_LONE_POSITION = 0;
-     public static final double PIVOT_LTWO_POSITION = 0;
-     public static final double PIVOT_LTHREE_POSITION = 0;
-     public static final double PIVOT_LFOUR_POSITION = 125;
-
+     public static final double PIVOT_LONE_POSITION = 10*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LTWO_POSITION = 40*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LTHREE_POSITION = 70*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LFOUR_POSITION = 125*PIVOT_ANGLE_CONVERSION_DEG;
+     
+     public static final double PIVOT_POSITIONS[] = {PIVOT_LOAD_POSITION, PIVOT_LONE_POSITION, PIVOT_LTWO_POSITION, PIVOT_LTHREE_POSITION, PIVOT_LFOUR_POSITION};
 
 }

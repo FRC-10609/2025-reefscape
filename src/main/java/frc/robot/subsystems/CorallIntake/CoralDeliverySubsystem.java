@@ -148,8 +148,6 @@ public class CoralDeliverySubsystem extends SubsystemBase {
     setPivotPosition(pivotSetPosition);
     updateDashboard();
   }
-
-  
  
   public void setPivotPower(double power){
     pivot.set(power);
@@ -172,9 +170,9 @@ public class CoralDeliverySubsystem extends SubsystemBase {
     pivotPIDController.setReference(position, SparkMax.ControlType.kPosition);
   }
 
-  public void setPivotDown(){//TODO: Change to "setPivotLoadPosition"
-    System.out.println("Pivot Down");
-    pivotSetPosition = 0;//Use constant values from CoralIntakeCfg instead of "magic numbers"
+  public void setPivotAnglePreset(int presetNum){
+    System.out.println("Pivot Preset");
+    pivotSetPosition = CoralIntakeCfg.PIVOT_POSITIONS[presetNum];//Use constant values from CoralIntakeCfg instead of "magic numbers"
   }
 
   
