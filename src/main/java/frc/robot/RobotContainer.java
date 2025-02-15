@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Algae.AlgaeSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
+import frc.robot.commands.AlgaeIntakeCmd;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
@@ -31,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -75,7 +78,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //Drivetrain
-    driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
+    // driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
@@ -84,6 +87,9 @@ public class RobotContainer {
     Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
     Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    Driver.Controller.povLeft().whileTrue(new AlgaeIntakeCmd(algaeSubsystem, 1));
+    Driver.Controller.povRight().whileTrue(new AlgaeIntakeCmd(algaeSubsystem, -1));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
