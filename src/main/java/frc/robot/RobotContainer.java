@@ -4,15 +4,14 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.CoralDelivery.ElevatorSubsystem;
+import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
-import frc.robot.Constants;
+import frc.robot.Constants; 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
-import frc.robot.commands.ElevatorCommand; 
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -36,14 +35,14 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  public final CoralDeliverySubsystem coralSubsystem = new CoralDeliverySubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
   //public final Vision visionSubsystem = new Vision();
 
   private final SendableChooser<Command> autoChooser; 
-  private int Elevator_pos = 0;
+
 
   // The driver's controller
 
@@ -65,7 +64,6 @@ public class RobotContainer {
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    SmartDashboard.putNumber("Elevator pos.:", elevatorSubsystem.getClimberPosition());
   }
   
   /**
@@ -81,19 +79,26 @@ public class RobotContainer {
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
 
-    new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorCommand(elevatorSubsystem, () -> Driver.getLeftTrigger(), 0));
+    // new Trigger(Driver.Controller.leftTrigger(0.1)).whileTrue(new ElevatorCommand(elevatorSubsystem, () -> Driver.getLeftTrigger(), 0));
 
-    new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorCommand(elevatorSubsystem, () -> -Driver.getRightTrigger(), 0));
+    // new Trigger(Driver.Controller.rightTrigger(0.1)).whileTrue(new ElevatorCommand(elevatorSubsystem, () -> -Driver.getRightTrigger(), 0));
 
-    new Trigger(Driver.Controller.a()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 1));
+    // new Trigger(Driver.Controller.a()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 1));
 
-    new Trigger(Driver.Controller.b()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 2));
+    // new Trigger(Driver.Controller.b()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 2));
     
-    new Trigger(Driver.Controller.y()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 3));
+    // new Trigger(Driver.Controller.y()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 3));
     
-    new Trigger(Driver.Controller.x()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 4));
+    // new Trigger(Driver.Controller.x()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 4));
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
+
+    Driver.Controller.a().onTrue(new InstantCommand(coralSubsystem::setElevatorLoadPosition));
+    Driver.Controller.b().onTrue(new InstantCommand(coralSubsystem::setElevatorLONEPosition));
+    Driver.Controller.x().onTrue(new InstantCommand(coralSubsystem::setElevatorLTWOPosition));
+    Driver.Controller.y().onTrue(new InstantCommand(coralSubsystem::setElevatorLTHREEPosition));
+    Driver.Controller.leftBumper().onTrue(new InstantCommand(coralSubsystem::setElevatorLFOURPosition));
+
 
     //SysID stuff - comment out on competition build!
     // Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
