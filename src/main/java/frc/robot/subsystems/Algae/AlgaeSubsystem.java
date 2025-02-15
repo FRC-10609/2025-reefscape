@@ -14,16 +14,11 @@ public class AlgaeSubsystem extends SubsystemBase  {
     private final SparkMax leftMotor;
     private final SparkMax rightMotor;
 
-    private final RelativeEncoder leftEncoder;
-    private final RelativeEncoder rightEncoder;
 
     public AlgaeSubsystem() {
         leftMotor = AlgaeCfg.LEFT_MOTOR;
         rightMotor = AlgaeCfg.RIGHT_MOTOR;
         
-        leftEncoder = leftMotor.getEncoder();
-        rightEncoder = rightMotor.getEncoder();
-
         SparkMaxConfig leftConfig = new SparkMaxConfig();
         leftConfig.idleMode(AlgaeCfg.LEFT_IDLE_MODE);
         leftConfig.inverted(AlgaeCfg.LEFT_INVERTED);
@@ -36,8 +31,6 @@ public class AlgaeSubsystem extends SubsystemBase  {
         rightConfig.smartCurrentLimit(AlgaeCfg.RIGHT_AMP_LIMIT);
         rightMotor.configure(rightConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
         
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
     }
 
     public void inTake(int in){
