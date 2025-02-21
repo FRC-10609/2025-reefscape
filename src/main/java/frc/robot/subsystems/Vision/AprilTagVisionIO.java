@@ -3,12 +3,12 @@ package frc.robot.subsystems.Vision;
 import edu.wpi.first.math.geometry.Transform3d;
 import java.util.List;
 import java.util.Optional;
-// import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 public interface AprilTagVisionIO {
-//   @AutoLog
+   @AutoLog
   public static class LoggableAprilTagVisionIOInputs {
     public double[] ntPose = {0, 0, 0, 0, 0, 0};
     public double ntYaw = 0;
