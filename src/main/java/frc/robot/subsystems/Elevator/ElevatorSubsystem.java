@@ -7,10 +7,10 @@ package frc.robot.subsystems.Elevator;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.EncoderConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,9 +18,9 @@ import frc.robot.Logger;
 
 public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new CoralDSubsystem. */
-  private final SparkMax elevator;
-  // private final SparkMax pivot;
-  // private final SparkMax delivery;
+  private final SparkFlex elevator;
+  // private final SparkFlex pivot;
+  // private final SparkFlex delivery;
 
   private RelativeEncoder elevatorEncoder;
   // private RelativeEncoder pivotEncoder;
@@ -52,11 +52,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private EncoderConfig elevatorEncoderConfig = new EncoderConfig();
   private ClosedLoopConfig elevatorPID_Config = new ClosedLoopConfig();
-  private SparkMaxConfig elevatorConfig = new SparkMaxConfig();
+  private SparkFlexConfig elevatorConfig = new SparkFlexConfig();
 
   // private EncoderConfig pivotEncoderConfig = new EncoderConfig();
   // private ClosedLoopConfig pivotPID_Config = new ClosedLoopConfig();
-  // private SparkMaxConfig pivotConfig = new SparkMaxConfig();
+  // private SparkFlexConfig pivotConfig = new SparkFlexConfig();
 
   // private enum CoralDeliveryState{
   //   INIT,
@@ -141,7 +141,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   private void registerLoggerObjects(){
-    Logger.RegisterSparkMax("Elevator", ElevatorCfg.ELEVATOR_MOTOR);
+    Logger.RegisterSparkFlex("Elevator", ElevatorCfg.ELEVATOR_MOTOR);
 
   }
 
@@ -170,7 +170,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     
   public void setElevatorPosition(double position){
-    elevatorPIDController.setReference(position, SparkMax.ControlType.kPosition);
+    elevatorPIDController.setReference(position, SparkFlex.ControlType.kPosition);
   }
 
   public void setElevatorLoadPosition(){
