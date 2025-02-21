@@ -3,14 +3,15 @@ package frc.robot.subsystems.Vision;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Vision.AprilTagVisionIO.UnloggableAprilTagVisionIOInputs;
+import frc.robot.subsystems.Vision.AprilTagVisionIO.LoggableAprilTagVisionIOInputs;
 import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 
 public class AprilTagVision extends SubsystemBase {
 
   private AprilTagVisionIO io;
-//   private LoggableAprilTagVisionIOInputsAutoLogged loggableInputs =
-    //   new LoggableAprilTagVisionIOInputsAutoLogged();
+  private LoggableAprilTagVisionIOInputs loggableInputs =
+      new LoggableAprilTagVisionIOInputs();
   private UnloggableAprilTagVisionIOInputs unloggableInputs =
       new UnloggableAprilTagVisionIOInputs();
 
