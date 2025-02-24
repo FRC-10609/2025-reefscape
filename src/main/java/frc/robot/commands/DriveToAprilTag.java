@@ -96,7 +96,7 @@ public class DriveToAprilTag extends Command {
                     MathUtil.clamp(strafeDistance * DRIVING_STRAFE_P, -1, 1))
                     .rotateBy(
                             drive
-                                    .getGyroRotation2d() // TODO: Fix it
+                                    .getPose().getRotation()
                                     .plus(Rotation2d.fromRadians(robotToTagAngleDifference)));
 
             double headingToTag = -Math.atan2(cameraToTarget.getY(), cameraToTarget.getX());
@@ -119,14 +119,14 @@ public class DriveToAprilTag extends Command {
                 -1,
                 1);
 
-        drive.runVelocity(
+        drive.driveRobotRelative(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         driveXDecimal * drive.getMaxLinearSpeedMetersPerSec(),
                         driveYDecimal * drive.getMaxLinearSpeedMetersPerSec(),
                         omegaDecimal * drive.getMaxAngularSpeedRadPerSec(),
                         isFlipped
-                                ? drive.getGyroRotation2d().plus(new Rotation2d(Math.PI)) // TODO: fix it
-                                : drive.getGyroRotation2d())); // TODO: fix it
+                                ? drive.getPose().getRotation().plus(new Rotation2d(Math.PI))
+                                : drive.getPose().getRotation()));
     }
 
     // Called once the command ends or is interrupted.
