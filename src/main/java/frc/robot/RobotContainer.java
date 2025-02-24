@@ -103,10 +103,12 @@ public class RobotContainer {
             () -> Driver.Controller.getRightX()));
     
     // align robot robot to AprilTag
-    Driver.Controller.rightBumper().whileTrue(Drive.drive(drive,
-            () -> vision.autoTranslateY(),
-            () -> vision.autoTranslateX(),
-            () -> -vision.autoRotate()));
+    Driver.Controller.rightBumper().whileTrue(
+        driveSubsystem.drive(
+          driveSubsystem,
+            () -> new AprilTagVision(new AprilTagVisionIOPhotonvision()).autoTranslateY(),
+            () -> new AprilTagVision(new AprilTagVisionIOPhotonvision()).autoTranslateX(),
+            () -> new AprilTagVision(new AprilTagVisionIOPhotonvision()).autoRotate()));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
