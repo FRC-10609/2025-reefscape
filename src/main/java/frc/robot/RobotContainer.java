@@ -5,10 +5,14 @@
 package frc.robot;
 
 import frc.robot.subsystems.PowerManagement.MockDetector;
+import frc.robot.commands.DriveToAprilTag;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
+import frc.robot.subsystems.Vision.AprilTagVision;
+import frc.robot.subsystems.Vision.AprilTagVisionIO;
+import frc.robot.subsystems.Vision.AprilTagVisionIOPhotonvision;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -31,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final AprilTagVision AprilTagVision = new AprilTagVision(new AprilTagVisionIOPhotonvision());
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -72,7 +77,8 @@ public class RobotContainer {
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
-   */
+    */
+
   private void configureBindings() {
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
@@ -84,6 +90,23 @@ public class RobotContainer {
     Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
     Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+
+    // point robot to AprilTag
+    Driver.Controller.leftBumper().whileTrue(
+        new DriveToAprilTag(
+            driveSubsystem, 
+            new AprilTagVision(
+                new AprilTagVisionIOPhotonvision()),
+            () -> Driver.Controller.getLeftY() * -1,
+            () -> Driver.Controller.getLeftX(),
+            () -> Driver.Controller.getRightX()));
+    
+    // align robot robot to AprilTag
+    Driver.Controller.rightBumper().whileTrue(Drive.drive(drive,
+            () -> vision.autoTranslateY(),
+            () -> vision.autoTranslateX(),
+            () -> -vision.autoRotate()));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
