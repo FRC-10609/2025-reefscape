@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.CoralDelivery.CoralDeliveryCfg;
+import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
+import frc.robot.commands.LoadCoralCommand;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -31,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -84,6 +88,8 @@ public class RobotContainer {
     Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
     Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    Driver.Controller.leftBumper().whileTrue(new LoadCoralCommand(coralDelivery));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`

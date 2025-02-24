@@ -5,10 +5,15 @@
 package frc.robot.subsystems.CoralDelivery;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Logger;
 
@@ -17,10 +22,12 @@ public class CoralDeliverySubsystem extends SubsystemBase {
   private final SparkMax delivery;
 
   private RelativeEncoder deliveryEncoder;
+  // private SparkClosedLoopController deliveryPIDController;
   
   public CoralDeliverySubsystem() {
     delivery = CoralDeliveryCfg.DELIVERY_MOTOR;
-
+    deliveryEncoder = delivery.getEncoder();
+    // deliveryPIDController = delivery.getClosedLoopController();
     //Configure the delivery controller (and distance sensors)
     configureCoralDelivery();
     
@@ -40,7 +47,17 @@ public class CoralDeliverySubsystem extends SubsystemBase {
     deliveryConfig.inverted(CoralDeliveryCfg.DELIVERY_MOTOR_REVERSED);
     deliveryConfig.smartCurrentLimit(CoralDeliveryCfg.DELIVERY_CURRENT_LIMIT);
 
+    // ClosedLoopConfig PIDConfig = new ClosedLoopConfig();
+    // PIDConfig.p(0);
+    // PIDConfig.i(0);
+    // PIDConfig.d(0);
+    // PIDConfig.outputRange(-.25,0.75);
+
+    // deliveryConfig.apply(PIDConfig);
     deliveryConfig.apply(deliveryEncoderConfig);
+
+    delivery.configure(deliveryConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
+
   }
 
   private void registerLoggerObjects(){
@@ -59,4 +76,5 @@ public class CoralDeliverySubsystem extends SubsystemBase {
   public void setDeliveryPower(double power){
     delivery.set(power);
   } 
+  
 }
