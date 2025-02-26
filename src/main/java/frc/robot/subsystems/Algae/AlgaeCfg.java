@@ -5,8 +5,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class AlgaeCfg {
-     public static final int LEFT_MOTOR_ID = 18;
-     public static final int RIGHT_MOTOR_ID = 19;
+     public static final int LEFT_MOTOR_ID = 30;
+     public static final int RIGHT_MOTOR_ID = 31;
      public static final SparkMax LEFT_MOTOR = new SparkMax(LEFT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
      public static final SparkMax RIGHT_MOTOR = new SparkMax(RIGHT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
 
