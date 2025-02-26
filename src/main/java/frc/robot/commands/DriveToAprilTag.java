@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,22 +14,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 import frc.robot.subsystems.Vision.AprilTagVision;
 
+
 /** An example command that uses an example subsystem. */
 public class DriveToAprilTag extends Command {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final DriveSubsystem drive;
     private final AprilTagVision vision;
-    private final DoubleSupplier xSupplier;
-    private final DoubleSupplier ySupplier;
-    private final DoubleSupplier omegaSupplier;
+    private final Supplier<Double> xSupplier;
+    private final Supplier<Double> ySupplier;
+    private final Supplier<Double> omegaSupplier;
 
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public DriveToAprilTag(DriveSubsystem drive, AprilTagVision vision, DoubleSupplier xSupplier,
-            DoubleSupplier ySupplier, DoubleSupplier omegaSupplier) {
+    public DriveToAprilTag(DriveSubsystem drive, AprilTagVision vision, Supplier<Double> xSupplier,
+            Supplier<Double> ySupplier, Supplier<Double> omegaSupplier) {
         this.drive = drive;
         this.vision = vision;
         this.xSupplier = xSupplier;
@@ -55,9 +56,9 @@ public class DriveToAprilTag extends Command {
 
         // Apply deadband
         double linearMagnitude = MathUtil.applyDeadband(
-                Math.hypot(-xSupplier.getAsDouble(), ySupplier.getAsDouble()), DEADBAND);
-        Rotation2d linearDirection = new Rotation2d(-xSupplier.getAsDouble(), ySupplier.getAsDouble());
-        double omega = MathUtil.applyDeadband(-omegaSupplier.getAsDouble(), DEADBAND);
+                Math.hypot(-xSupplier.get(), ySupplier.get()), DEADBAND);
+        Rotation2d linearDirection = new Rotation2d(-xSupplier.get(), ySupplier.get());
+        double omega = MathUtil.applyDeadband(-omegaSupplier.get(), DEADBAND);
 
         // Square values
         linearMagnitude = linearMagnitude * linearMagnitude;
@@ -105,17 +106,17 @@ public class DriveToAprilTag extends Command {
 
         double driveXDecimal = MathUtil.clamp(
                 MathUtil.clamp(MathUtil.applyDeadband(linearVelocity.getX(), .1), -.4, .4)
-                        + MathUtil.applyDeadband(xSupplier.getAsDouble(), .02) * .3,
+                        + MathUtil.applyDeadband(xSupplier.get(), .02) * .3,
                 -1,
                 1);
         double driveYDecimal = MathUtil.clamp(
                 MathUtil.clamp(MathUtil.applyDeadband(linearVelocity.getY(), .1), -.4, .4)
-                        + MathUtil.applyDeadband(ySupplier.getAsDouble(), .02) * .3,
+                        + MathUtil.applyDeadband(ySupplier.get(), .02) * .3,
                 -1,
                 1);
         double omegaDecimal = MathUtil.clamp(
                 MathUtil.clamp(MathUtil.applyDeadband(omega, .05), -.4, .4)
-                        + MathUtil.applyDeadband(omegaSupplier.getAsDouble(), .02) * .2,
+                        + MathUtil.applyDeadband(omegaSupplier.get(), .02) * .2,
                 -1,
                 1);
 

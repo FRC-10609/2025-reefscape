@@ -13,6 +13,7 @@ import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 import frc.robot.subsystems.Vision.AprilTagVision;
 import frc.robot.subsystems.Vision.AprilTagVisionIO;
 import frc.robot.subsystems.Vision.AprilTagVisionIOPhotonvision;
+import frc.robot.commands.DriveToAprilTag;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -96,19 +97,19 @@ public class RobotContainer {
     Driver.Controller.leftBumper().whileTrue(
         new DriveToAprilTag(
             driveSubsystem, 
-            new AprilTagVision(
-                new AprilTagVisionIOPhotonvision()),
+            AprilTagVision,
             () -> Driver.Controller.getLeftY() * -1,
             () -> Driver.Controller.getLeftX(),
             () -> Driver.Controller.getRightX()));
     
     // align robot robot to AprilTag
     Driver.Controller.rightBumper().whileTrue(
-        driveSubsystem.drive(
+      new DriveToAprilTag(
           driveSubsystem,
-            () -> new AprilTagVision(new AprilTagVisionIOPhotonvision()).autoTranslateY(),
-            () -> new AprilTagVision(new AprilTagVisionIOPhotonvision()).autoTranslateX(),
-            () -> new AprilTagVision(new AprilTagVisionIOPhotonvision()).autoRotate()));
+          AprilTagVision,
+          () -> AprilTagVision.autoTranslateY(),
+          () -> AprilTagVision.autoTranslateX(),
+          () -> AprilTagVision.autoRotate()));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`

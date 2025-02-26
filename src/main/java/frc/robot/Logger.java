@@ -3,7 +3,7 @@ package frc.robot;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 //import com.ctre.phoenix.ErrorCode;
 //import com.ctre.phoenix.motorcontrol.Faults;
@@ -117,7 +117,7 @@ public class Logger implements Runnable {
         items.put(name, coder);
     }
 
-    public static void RegisterSensor(String name, DoubleSupplier value) {
+    public static void RegisterSensor(String name, Supplier<Double> value) {
         items.put(name, value);
     }
 
@@ -159,8 +159,8 @@ public class Logger implements Runnable {
         for (String i : items.keySet()) {
             var item = items.get(i);
 
-            if(item instanceof DoubleSupplier) {
-                sensorTable.getEntry(i).setDouble(((DoubleSupplier)item).getAsDouble());
+            if(item instanceof Supplier<?>) {
+                sensorTable.getEntry(i).setDouble(((Supplier<Double>)item).get());
             } else if(item instanceof CANcoder) {
                 coder = (CANcoder)item;
                 sensorTable.getEntry(i + " Angle").setDouble(coder.getAbsolutePosition().getValueAsDouble());
