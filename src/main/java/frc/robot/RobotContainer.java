@@ -11,6 +11,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriverCommands;
@@ -18,9 +19,13 @@ import frc.robot.commands.ElevatorPwrCmd;
 import frc.robot.commands.ElevatorSetPositionCmd;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
+import frc.robot.commands.DeliverCoralCommand;
+import frc.robot.commands.LoadCoralCommand;
+import frc.robot.commands.PivotSetPositionCmd;
 import frc.robot.subsystems.Elevator.ElevatorSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
+import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,6 +38,11 @@ public class RobotContainer {
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
+  public ParallelCommandGroup l0CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 0));
+  public ParallelCommandGroup l1CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 1), new PivotSetPositionCmd(coralDelivery, 1));
+  public ParallelCommandGroup l2CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 2), new PivotSetPositionCmd(coralDelivery, 2));
+  public ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
+  public ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -73,6 +83,11 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    ParallelCommandGroup l0CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 0));
+    ParallelCommandGroup l1CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 1), new PivotSetPositionCmd(coralDelivery, 1));
+    ParallelCommandGroup l2CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 2), new PivotSetPositionCmd(coralDelivery, 2));
+    ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
+    ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
 
@@ -90,14 +105,9 @@ public class RobotContainer {
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
-    Driver.Controller.a().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 0));
-    Driver.Controller.b().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 1));
-    Driver.Controller.x().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 2));
-    Driver.Controller.y().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 3));
-    Driver.Controller.leftBumper().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 4));
 
 
-    Operator.Controller.a().onTrue(new PivotSetPositionCmd(coralDelivery, 0));
+    Operator.Controller.a().onTrue(new l0CommandGroup(elevatorSubsystem, coralDelivery));
     Operator.Controller.b().onTrue(new PivotSetPositionCmd(coralDelivery, 1));
     Operator.Controller.x().onTrue(new PivotSetPositionCmd(coralDelivery, 2));
     Operator.Controller.y().onTrue(new PivotSetPositionCmd(coralDelivery, 3));
