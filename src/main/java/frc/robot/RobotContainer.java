@@ -13,13 +13,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.DeliverCoralCommand;
 import frc.robot.commands.DriverCommands;
-import frc.robot.commands.LoadCoralCommand;
-import frc.robot.commands.PivotSetPositionCmd;
+import frc.robot.commands.ElevatorPwrCmd;
+import frc.robot.commands.ElevatorSetPositionCmd;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
-import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
+import frc.robot.subsystems.Elevator.ElevatorSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 
@@ -32,6 +31,7 @@ import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
@@ -40,12 +40,9 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser; 
 
-  /* sample
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  */
+  // The driver's controller
+
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -53,19 +50,19 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-
+    
     //Register named commands. Must register all commands we want Pathplanner to execute.
     NamedCommands.registerCommand("Stop Drive Motors", new StopDriveMotors(driveSubsystem));
   
     //Build an Autochooser from SmartDashboard selection.  Default will be Commands.none()
-
+    
     //e.g new PathPlannerAuto("MiddleAutoAMPFinal");
     new PathPlannerAuto("Example Auto");
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
-
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -77,9 +74,28 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //Drivetrain
-    driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
+    driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
+
+    Driver.Controller.leftTrigger(0.1).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> Driver.getLeftTrigger()));
+
+    Driver.Controller.rightTrigger(0.1).whileTrue(new ElevatorPwrCmd(elevatorSubsystem, () -> -Driver.getRightTrigger()));
+
+    // new Trigger(Driver.Controller.a()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 1));
+
+    // new Trigger(Driver.Controller.b()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 2));
+    
+    // new Trigger(Driver.Controller.y()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 3));
+    
+    // new Trigger(Driver.Controller.x()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 4));
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
+
+    Driver.Controller.a().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 0));
+    Driver.Controller.b().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 1));
+    Driver.Controller.x().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 2));
+    Driver.Controller.y().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 3));
+    Driver.Controller.leftBumper().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 4));
+
 
     Operator.Controller.a().onTrue(new PivotSetPositionCmd(coralDelivery, 0));
     Operator.Controller.b().onTrue(new PivotSetPositionCmd(coralDelivery, 1));
