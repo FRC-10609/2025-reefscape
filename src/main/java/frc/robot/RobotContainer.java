@@ -107,11 +107,11 @@ public class RobotContainer {
 
 
 
-    Operator.Controller.a().onTrue(new l0CommandGroup(elevatorSubsystem, coralDelivery));
-    Operator.Controller.b().onTrue(new PivotSetPositionCmd(coralDelivery, 1));
-    Operator.Controller.x().onTrue(new PivotSetPositionCmd(coralDelivery, 2));
-    Operator.Controller.y().onTrue(new PivotSetPositionCmd(coralDelivery, 3));
-    Operator.Controller.leftBumper().onTrue(new PivotSetPositionCmd(coralDelivery, 4));
+    Operator.Controller.a().onTrue(l0CommandGroup);
+    Operator.Controller.b().onTrue(l1CommandGroup);
+    Operator.Controller.x().onTrue(l2CommandGroup);
+    Operator.Controller.y().onTrue(l3CommandGroup);
+    Operator.Controller.leftBumper().onTrue(l4CommandGroup);
 
 
     Operator.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
