@@ -31,7 +31,7 @@ public class LoadCoralCommand extends Command{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    coraldelivery.setDeliveryPower(0.5);
+    coraldelivery.setDeliveryPower(0.75);
   }
 
   // Called once the command ends or is interrupted.
