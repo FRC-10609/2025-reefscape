@@ -4,15 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.CoralDelivery.CoralDeliveryCfg;
-import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
-import frc.robot.subsystems.PowerManagement.MockDetector;
-import frc.robot.commands.DriverCommands;
-import frc.robot.commands.ResetGyro;
-import frc.robot.commands.StopDriveMotors;
-import frc.robot.commands.LoadCoralCommand;
-import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -22,11 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DeliverCoralCommand;
 import frc.robot.commands.DriverCommands;
+import frc.robot.commands.LoadCoralCommand;
 import frc.robot.commands.PivotSetPositionCmd;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
-import frc.robot.subsystems.CorallIntake.CoralDeliverySubsystem;
+import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 
@@ -88,13 +81,15 @@ public class RobotContainer {
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
-    //SysID stuff - comment out on competition build!
-    Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    Operator.Controller.a().onTrue(new PivotSetPositionCmd(coralDelivery, 0));
+    Operator.Controller.b().onTrue(new PivotSetPositionCmd(coralDelivery, 1));
+    Operator.Controller.x().onTrue(new PivotSetPositionCmd(coralDelivery, 2));
+    Operator.Controller.y().onTrue(new PivotSetPositionCmd(coralDelivery, 3));
+    Operator.Controller.leftBumper().onTrue(new PivotSetPositionCmd(coralDelivery, 4));
 
-    Driver.Controller.leftBumper().whileTrue(new LoadCoralCommand(coralDelivery));
+
+    Operator.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
+    Operator.Controller.povDown().whileTrue(new DeliverCoralCommand(coralDelivery));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
