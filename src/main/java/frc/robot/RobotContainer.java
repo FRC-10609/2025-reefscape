@@ -32,6 +32,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -96,11 +97,15 @@ public class RobotContainer {
     Driver.Controller.leftBumper().onTrue(new ElevatorSetPositionCmd(elevatorSubsystem, 4));
 
 
-    //SysID stuff - comment out on competition build!
-    // Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    // Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    // Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    Operator.Controller.a().onTrue(new PivotSetPositionCmd(coralDelivery, 0));
+    Operator.Controller.b().onTrue(new PivotSetPositionCmd(coralDelivery, 1));
+    Operator.Controller.x().onTrue(new PivotSetPositionCmd(coralDelivery, 2));
+    Operator.Controller.y().onTrue(new PivotSetPositionCmd(coralDelivery, 3));
+    Operator.Controller.leftBumper().onTrue(new PivotSetPositionCmd(coralDelivery, 4));
+
+
+    Operator.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
+    Operator.Controller.povDown().whileTrue(new DeliverCoralCommand(coralDelivery));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
