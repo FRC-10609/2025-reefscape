@@ -10,8 +10,8 @@ public class AlgaeCfg {
      public static final SparkMax LEFT_MOTOR = new SparkMax(LEFT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
      public static final SparkMax RIGHT_MOTOR = new SparkMax(RIGHT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
 
-     public static final double R_GEAR_RATIO = 1/1.0;
-     public static final double L_GEAR_RATIO = 1/1.0;
+     public static final double R_GEAR_RATIO = 1/9.0;
+     public static final double L_GEAR_RATIO = 1/9.0;
 
      public static final SparkMaxConfig.IdleMode LEFT_IDLE_MODE = SparkMaxConfig.IdleMode.kBrake;
      public static final SparkMaxConfig.IdleMode RIGHT_IDLE_MODE = SparkMaxConfig.IdleMode.kBrake;
