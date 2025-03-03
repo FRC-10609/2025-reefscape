@@ -126,7 +126,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorPID_Config.p(ElevatorCfg.ELEVATOR_P_GAIN);
     elevatorPID_Config.i(ElevatorCfg.ELEVATOR_I_GAIN);
     elevatorPID_Config.d(ElevatorCfg.ELEVATOR_D_GAIN);
-    elevatorPID_Config.outputRange(-.25,0.75);
+    elevatorPID_Config.outputRange(-.25,0.75); //TODO: adjust min, max value
     
     elevatorConfig.idleMode(ElevatorCfg.ELEVATOR_IDLE_MODE);
     elevatorConfig.inverted(ElevatorCfg.ELEVATOR_MOTOR_REVERSED);
