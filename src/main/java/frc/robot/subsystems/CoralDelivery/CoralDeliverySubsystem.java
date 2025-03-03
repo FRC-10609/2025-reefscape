@@ -139,7 +139,7 @@ public class CoralDeliverySubsystem extends SubsystemBase {
 
     deliveryConfig.apply(deliveryEncoderConfig);
 
-    // setPivotAnglePreset(0);
+    reset();
   }
 
   private void registerLoggerObjects(){
