@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Logger;
+// import frc.robot.subsystems.CoralDelivery.CoralDeliveryCfg;
 
 public class CoralDeliverySubsystem extends SubsystemBase {
   /** Creates a new CoralDSubsystem. */
@@ -25,6 +26,7 @@ public class CoralDeliverySubsystem extends SubsystemBase {
   private RelativeEncoder deliveryEncoder;
   
   private SparkClosedLoopController pivotPIDController;
+  private SparkClosedLoopController deliveryPIDController;
 
   private double pivotSetPosition = 0;
 
@@ -125,12 +127,17 @@ public class CoralDeliverySubsystem extends SubsystemBase {
     deliveryEncoderConfig.positionConversionFactor(CoralDeliveryCfg.DELIVERY_GEAR_RATIO);
     deliveryEncoderConfig.velocityConversionFactor(CoralDeliveryCfg.DELIVERY_GEAR_RATIO);
 
+    deliveryPIDController = delivery.getClosedLoopController();
+  
+
     SparkMaxConfig deliveryConfig = new SparkMaxConfig();
     deliveryConfig.idleMode(CoralDeliveryCfg.DELIVERY_IDLE_MODE);
     deliveryConfig.inverted(CoralDeliveryCfg.DELIVERY_MOTOR_REVERSED);
     deliveryConfig.smartCurrentLimit(CoralDeliveryCfg.DELIVERY_CURRENT_LIMIT);
 
     deliveryConfig.apply(deliveryEncoderConfig);
+
+    // setPivotAnglePreset(0);
   }
 
   private void registerLoggerObjects(){

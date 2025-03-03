@@ -41,11 +41,11 @@ public class CoralDeliveryCfg {
 
      public static final int CORAL_PRESENT_THRESH_MM = 15;
 
-     public static final double PIVOT_LOAD_POSITION = 0.0;
-     public static final double PIVOT_LONE_POSITION = 10*PIVOT_ANGLE_CONVERSION_DEG;
-     public static final double PIVOT_LTWO_POSITION = 40*PIVOT_ANGLE_CONVERSION_DEG;
-     public static final double PIVOT_LTHREE_POSITION = 70*PIVOT_ANGLE_CONVERSION_DEG;
-     public static final double PIVOT_LFOUR_POSITION = 125*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LOAD_POSITION = 180*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LONE_POSITION = 40*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LTWO_POSITION = 80*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LTHREE_POSITION = 140*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LFOUR_POSITION = 250*PIVOT_ANGLE_CONVERSION_DEG;
      
      public static final double PIVOT_POSITIONS[] = {PIVOT_LOAD_POSITION, PIVOT_LONE_POSITION, PIVOT_LTWO_POSITION, PIVOT_LTHREE_POSITION, PIVOT_LFOUR_POSITION};
 
