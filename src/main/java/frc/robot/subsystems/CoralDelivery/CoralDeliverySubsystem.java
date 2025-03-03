@@ -8,23 +8,27 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.EncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+// import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Logger;
+// import frc.robot.subsystems.CoralDelivery.CoralDeliveryCfg;
 
 public class CoralDeliverySubsystem extends SubsystemBase {
   /** Creates a new CoralDSubsystem. */
-  private final SparkMax pivot;
+  private final SparkFlex pivot;
   private final SparkMax delivery;
 
   private RelativeEncoder pivotEncoder;
   private RelativeEncoder deliveryEncoder;
   
   private SparkClosedLoopController pivotPIDController;
+  // private SparkClosedLoopController deliveryPIDController;
 
   private double pivotSetPosition = 0;
 
@@ -81,9 +85,9 @@ public class CoralDeliverySubsystem extends SubsystemBase {
     if(pivot_d_gain != pivot_d_gain_prev){pivotPID_Config.d(pivot_i_gain); pivotCfgChanged = true;}
 
     if(pivotCfgChanged){
-    //pivotConfig.apply(elevatorPID_Config);
-    //pivot.configure(elevatorConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
-    //elevatorCfgChanged = false;
+    // pivotConfig.apply(pivotPID_Config);
+    // pivot.configure(pivotConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
+    // pivotCfgChanged = false;
     }
 
     SmartDashboard.putNumber("PIVOT_POS", getPivotPosition());
@@ -125,16 +129,21 @@ public class CoralDeliverySubsystem extends SubsystemBase {
     deliveryEncoderConfig.positionConversionFactor(CoralDeliveryCfg.DELIVERY_GEAR_RATIO);
     deliveryEncoderConfig.velocityConversionFactor(CoralDeliveryCfg.DELIVERY_GEAR_RATIO);
 
+    // deliveryPIDController = delivery.getClosedLoopController();
+  
+
     SparkMaxConfig deliveryConfig = new SparkMaxConfig();
     deliveryConfig.idleMode(CoralDeliveryCfg.DELIVERY_IDLE_MODE);
     deliveryConfig.inverted(CoralDeliveryCfg.DELIVERY_MOTOR_REVERSED);
     deliveryConfig.smartCurrentLimit(CoralDeliveryCfg.DELIVERY_CURRENT_LIMIT);
 
     deliveryConfig.apply(deliveryEncoderConfig);
+
+    // setPivotAnglePreset(0);
   }
 
   private void registerLoggerObjects(){
-    Logger.RegisterSparkMax("Coral Pivot", CoralDeliveryCfg.PIVOT_MOTOR);
+    Logger.RegisterSparkFlex("Coral Pivot", CoralDeliveryCfg.PIVOT_MOTOR);
     Logger.RegisterSparkMax("Coral Delivery", CoralDeliveryCfg.DELIVERY_MOTOR);
   }
 
