@@ -119,8 +119,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void configureElevator(){
     //Setup the Elevator motor config
     elevatorEncoder = elevator.getEncoder();
-    elevatorEncoderConfig.positionConversionFactor(ElevatorCfg.ELEVATOR_POS_CONVERSION_CM);
-    elevatorEncoderConfig.velocityConversionFactor(ElevatorCfg.ELEVATOR_POS_CONVERSION_CM);
+    // elevatorEncoderConfig.positionConversionFactor(ElevatorCfg.ELEVATOR_POS_CONVERSION_CM);
+    // elevatorEncoderConfig.velocityConversionFactor(ElevatorCfg.ELEVATOR_POS_CONVERSION_CM);
     
     elevatorPIDController = elevator.getClosedLoopController();
     elevatorPID_Config.p(ElevatorCfg.ELEVATOR_P_GAIN);

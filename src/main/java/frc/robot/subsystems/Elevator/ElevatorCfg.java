@@ -25,9 +25,9 @@ public class ElevatorCfg {
 
     public static final double ELEVATOR_LOAD_POSITION = 0.0;
     public static final double ELEVATOR_LONE_POSITION = 50;
-    public static final double ELEVATOR_LTWO_POSITION = 70;
-    public static final double ELEVATOR_LTHREE_POSITION = 90;
-    public static final double ELEVATOR_LFOUR_POSITION =115;
+    public static final double ELEVATOR_LTWO_POSITION = 30  ;
+    public static final double ELEVATOR_LTHREE_POSITION = 69.0;
+    public static final double ELEVATOR_LFOUR_POSITION =122;
 
     public static final double ELEVATOR_POSITIONS[] = {ELEVATOR_LOAD_POSITION, ELEVATOR_LONE_POSITION, ELEVATOR_LTWO_POSITION, ELEVATOR_LTHREE_POSITION, ELEVATOR_LFOUR_POSITION};
 }

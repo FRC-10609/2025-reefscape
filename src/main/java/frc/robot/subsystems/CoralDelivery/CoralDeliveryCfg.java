@@ -19,18 +19,18 @@ public class CoralDeliveryCfg {
     
     public static final int ENCODER_CPR = 42;
 
-    public static final double PIVOT_ANGLE_CONVERSION_DEG = (1/360.0)*PIVOT_GEAR_RATIO;
+    public static final double PIVOT_ANGLE_CONVERSION_DEG = (1/360.0)*(1/PIVOT_GEAR_RATIO);
 
-    public static final SparkBaseConfig.IdleMode PIVOT_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
+    public static final SparkBaseConfig.IdleMode PIVOT_IDLE_MODE = SparkBaseConfig.IdleMode.kCoast;
     public static final SparkBaseConfig.IdleMode DELIVERY_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
     public static final boolean PIVOT_MOTOR_REVERSED = false;
     public static final boolean DELIVERY_MOTOR_REVERSED = false;
     public static final int PIVOT_CURRENT_LIMIT = 40;
     public static final int DELIVERY_CURRENT_LIMIT = 20;
     
-    public static final double PIVOT_P_GAIN = 0.05;
+    public static final double PIVOT_P_GAIN = 4;
     public static final double PIVOT_I_GAIN = 0;
-    public static final double PIVOT_D_GAIN = 0;
+    public static final double PIVOT_D_GAIN = 2.5;
     public static final double PIVOT_MAX_OUTPUT = 1;
     public static final double PIVOT_MIN_OUTPUT = -0.25;
 
@@ -42,11 +42,11 @@ public class CoralDeliveryCfg {
 
      public static final int CORAL_PRESENT_THRESH_MM = 15;
 
-     public static final double PIVOT_LOAD_POSITION = 0.5;
-     public static final double PIVOT_LONE_POSITION = 40*PIVOT_ANGLE_CONVERSION_DEG;
-     public static final double PIVOT_LTWO_POSITION = 80*PIVOT_ANGLE_CONVERSION_DEG;
-     public static final double PIVOT_LTHREE_POSITION = 140*PIVOT_ANGLE_CONVERSION_DEG;
-     public static final double PIVOT_LFOUR_POSITION = 250*PIVOT_ANGLE_CONVERSION_DEG;
+     public static final double PIVOT_LOAD_POSITION = 1.326696;
+     public static final double PIVOT_LONE_POSITION = 0.784791;
+     public static final double PIVOT_LTWO_POSITION = 0.794791;
+     public static final double PIVOT_LTHREE_POSITION = 0.774791;
+     public static final double PIVOT_LFOUR_POSITION = 0.87;
      
      public static final double PIVOT_POSITIONS[] = {PIVOT_LOAD_POSITION, PIVOT_LONE_POSITION, PIVOT_LTWO_POSITION, PIVOT_LTHREE_POSITION, PIVOT_LFOUR_POSITION};
 
