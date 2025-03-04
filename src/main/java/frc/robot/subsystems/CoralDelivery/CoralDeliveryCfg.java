@@ -19,7 +19,7 @@ public class CoralDeliveryCfg {
     
     public static final int ENCODER_CPR = 42;
 
-    public static final double PIVOT_ANGLE_CONVERSION_DEG = (1/360.0)*PIVOT_GEAR_RATIO;
+    public static final double PIVOT_ANGLE_CONVERSION_DEG = (1/360.0)*(1/PIVOT_GEAR_RATIO);
 
     public static final SparkBaseConfig.IdleMode PIVOT_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
     public static final SparkBaseConfig.IdleMode DELIVERY_IDLE_MODE = SparkBaseConfig.IdleMode.kBrake;
