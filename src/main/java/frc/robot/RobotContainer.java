@@ -114,8 +114,8 @@ public class RobotContainer {
     Operator.Controller.leftBumper().onTrue(l4CommandGroup);
 
 
-    Operator.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
-    Operator.Controller.povDown().whileTrue(new DeliverCoralCommand(coralDelivery));
+    Driver.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
+    Driver.Controller.povDown().whileTrue(new DeliverCoralCommand(coralDelivery));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
