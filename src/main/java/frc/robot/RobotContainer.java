@@ -4,6 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Algae.AlgaeSubsystem;
+import frc.robot.subsystems.PowerManagement.MockDetector;
+import frc.robot.commands.AlgaeIntakeCmd;
+import frc.robot.commands.DriverCommands;
+import frc.robot.commands.ResetGyro;
+import frc.robot.commands.StopDriveMotors;
+import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -43,6 +51,7 @@ public class RobotContainer {
   public ParallelCommandGroup l2CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 2), new PivotSetPositionCmd(coralDelivery, 2));
   public ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
   public ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
+  public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
@@ -102,6 +111,7 @@ public class RobotContainer {
     // new Trigger(Driver.Controller.y()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 3));
     
     // new Trigger(Driver.Controller.x()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 4));
+    // driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
     
     Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
 
@@ -116,6 +126,14 @@ public class RobotContainer {
 
     Driver.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
     Driver.Controller.povDown().whileTrue(new DeliverCoralCommand(coralDelivery));
+    //SysID stuff - comment out on competition build!
+    //Driver.Controller.y().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    //Driver.Controller.a().whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    //Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    //Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    Driver.Controller.povLeft().whileTrue(new AlgaeIntakeCmd(algaeSubsystem, 1));
+    Driver.Controller.povRight().whileTrue(new AlgaeIntakeCmd(algaeSubsystem, -1));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
