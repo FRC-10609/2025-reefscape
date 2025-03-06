@@ -97,6 +97,7 @@ public class RobotContainer {
     ParallelCommandGroup l2CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 2), new PivotSetPositionCmd(coralDelivery, 2));
     ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
     ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
+    ParallelCommandGroup algaeCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 5), new PivotSetPositionCmd(coralDelivery, 5));
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
 
@@ -122,6 +123,7 @@ public class RobotContainer {
     Operator.Controller.x().onTrue(l2CommandGroup);
     Operator.Controller.y().onTrue(l3CommandGroup);
     Operator.Controller.leftBumper().onTrue(l4CommandGroup);
+    Operator.Controller.rightBumper().onTrue(algaeCommandGroup);
 
 
     Driver.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
