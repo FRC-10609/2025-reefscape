@@ -42,13 +42,15 @@ public class CoralDeliveryCfg {
 
      public static final int CORAL_PRESENT_THRESH_MM = 15;
 
-     public static final double PIVOT_LOAD_POSITION = 1.326696;
+     public static final double PIVOT_LOAD_POSITION = 1.426696;
      public static final double PIVOT_LONE_POSITION = 0.784791;
      public static final double PIVOT_LTWO_POSITION = 0.794791;
      public static final double PIVOT_LTHREE_POSITION = 0.774791;
      public static final double PIVOT_LFOUR_POSITION = 0.87;
-     public static final double PIVOT_ALGAE_POSITION = 1.326696;
+     public static final double PIVOT_ALGAE_POSITION = 1.726696;
+     public static final double PIVOT_CRUISING_POSITION = 0.794791;
+     // public static
      
-     public static final double PIVOT_POSITIONS[] = {PIVOT_LOAD_POSITION, PIVOT_LONE_POSITION, PIVOT_LTWO_POSITION, PIVOT_LTHREE_POSITION, PIVOT_LFOUR_POSITION, PIVOT_ALGAE_POSITION};
+     public static final double PIVOT_POSITIONS[] = {PIVOT_LOAD_POSITION, PIVOT_LONE_POSITION, PIVOT_LTWO_POSITION, PIVOT_LTHREE_POSITION, PIVOT_LFOUR_POSITION, PIVOT_ALGAE_POSITION, PIVOT_CRUISING_POSITION};
 
 }

@@ -51,21 +51,34 @@ public class RobotContainer {
   public ParallelCommandGroup l2CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 2), new PivotSetPositionCmd(coralDelivery, 2));
   public ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
   public ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
+  ParallelCommandGroup algaeCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 5), new PivotSetPositionCmd(coralDelivery, 5));
+  ParallelCommandGroup cruisingCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 6));
+  public ParallelCommandGroup algaeCommandGroup2 = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 6), new PivotSetPositionCmd(coralDelivery, 5));
   public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+  
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
   //Needed to invoke scheduler
   //public final Vision visionSubsystem = new Vision();
-
+  
   private final SendableChooser<Command> autoChooser; 
-
-
+  
+  
   // The driver's controller
-
-
+  
+  
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
+      NamedCommands.registerCommand("L1 Position", l1CommandGroup);
+      NamedCommands.registerCommand("L2 Position", l2CommandGroup);
+      NamedCommands.registerCommand("L3 Position", l3CommandGroup);
+      NamedCommands.registerCommand("L4 Position", l4CommandGroup);
+      NamedCommands.registerCommand("Loading Position", l0CommandGroup);
+      NamedCommands.registerCommand("Cruising Position", cruisingCommandGroup);
+      NamedCommands.registerCommand("Load Coral", new LoadCoralCommand(coralDelivery));
+      NamedCommands.registerCommand("Deliver Coral", new DeliverCoralCommand(coralDelivery));
     // Configure the trigger bindings
 
     configureBindings();
@@ -76,7 +89,10 @@ public class RobotContainer {
     //Build an Autochooser from SmartDashboard selection.  Default will be Commands.none()
     
     //e.g new PathPlannerAuto("MiddleAutoAMPFinal");
-    new PathPlannerAuto("Example Auto");
+    new PathPlannerAuto("Left");
+    new PathPlannerAuto("Right");
+    new PathPlannerAuto("Mid");
+
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -98,6 +114,8 @@ public class RobotContainer {
     ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
     ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
     ParallelCommandGroup algaeCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 5), new PivotSetPositionCmd(coralDelivery, 5));
+    ParallelCommandGroup cruisingCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 6));
+
     //Drivetrain
     driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE RIGHT BUMPER TO SLOW DOWN 
 
@@ -114,7 +132,7 @@ public class RobotContainer {
     // new Trigger(Driver.Controller.x()).onTrue(new ElevatorCommand(elevatorSubsystem, () -> 0.5, 4));
     // driveSubsystem.setDefaultCommand(new DriverCommands(driveSubsystem, new MockDetector())); //USES THE LEFT BUMPER TO SLOW DOWN
     
-    Driver.Controller.start().onTrue(new ResetGyro(driveSubsystem));
+    Driver.Controller.x().onTrue(new ResetGyro(driveSubsystem));
 
 
 
@@ -123,7 +141,9 @@ public class RobotContainer {
     Operator.Controller.x().onTrue(l2CommandGroup);
     Operator.Controller.y().onTrue(l3CommandGroup);
     Operator.Controller.leftBumper().onTrue(l4CommandGroup);
-    Operator.Controller.rightBumper().onTrue(algaeCommandGroup);
+    Operator.Controller.rightTrigger().onTrue(algaeCommandGroup);
+    Operator.Controller.rightBumper().onTrue(algaeCommandGroup2);
+    Operator.Controller.start().onTrue(cruisingCommandGroup);
 
 
     Driver.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));
