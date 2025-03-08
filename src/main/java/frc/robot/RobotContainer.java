@@ -5,12 +5,16 @@
 package frc.robot;
 
 import frc.robot.subsystems.Algae.AlgaeSubsystem;
+import frc.robot.subsystems.Climber.ClimberCfg;
+import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.commands.AlgaeCmd;
+import frc.robot.commands.ClimberCmd;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
 import frc.robot.commands.turn180Cmd;
+import frc.robot.commands.ClimberCmd;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -37,6 +41,7 @@ import frc.robot.subsystems.Elevator.ElevatorSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 import frc.robot.subsystems.CoralDelivery.CoralDeliverySubsystem;
+import frc.robot.subsystems.Climber.ClimberCfg;;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -50,6 +55,7 @@ public class RobotContainer {
   public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
   public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+  public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   double heading;
 
@@ -150,6 +156,8 @@ public class RobotContainer {
     // Operator.Controller.rightTrigger().onTrue(algaeCommandGroup);
     Operator.Controller.rightBumper().onTrue(new AlgaeCmd(algaeSubsystem, 0));
     Operator.Controller.start().onTrue(cruisingCommandGroup);
+    Operator.Controller.povLeft().whileTrue(new ClimberCmd(climberSubsystem, ClimberCfg.CLIMBER_SPEED_DOWN));
+    Operator.Controller.povLeft().whileTrue(new ClimberCmd(climberSubsystem, ClimberCfg.CLIMBER_SPEED_UP));
 
     Operator.Controller.povUp().whileTrue(new ElevatorPwrCmd(elevatorSubsystem, 1));
     Operator.Controller.povDown().whileTrue(new ElevatorPwrCmd(elevatorSubsystem, -1));
