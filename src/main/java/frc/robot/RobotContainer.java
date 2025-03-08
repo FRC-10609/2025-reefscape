@@ -10,6 +10,7 @@ import frc.robot.commands.AlgaeCmd;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
+import frc.robot.commands.turn180Cmd;
 import frc.robot.subsystems.SwerveDrive.DriveSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -19,7 +20,9 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriverCommands;
@@ -47,6 +50,8 @@ public class RobotContainer {
   public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
   public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+
+  double heading;
 
   public ParallelCommandGroup l0CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 0));
   public ParallelCommandGroup l1CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 1), new PivotSetPositionCmd(coralDelivery, 1));
@@ -161,6 +166,7 @@ public class RobotContainer {
 
     Driver.Controller.povLeft().whileTrue(new AlgaeCmd(algaeSubsystem, 1));
     Driver.Controller.povRight().whileTrue(new AlgaeCmd(algaeSubsystem, -1));
+    Driver.Controller.b().onTrue(new SequentialCommandGroup(new InstantCommand(() -> driveSubsystem.resetGyro(0)), new turn180Cmd(driveSubsystem)));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`

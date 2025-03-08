@@ -152,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase{
     configAutoBuilder(); 
   }
 
-  private double getIMU_Yaw() {
+  public double getIMU_Yaw() {
     var currentHeading = gyro.getYaw(); 
     return(currentHeading.getValueAsDouble());
   }
