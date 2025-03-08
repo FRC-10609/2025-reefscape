@@ -157,8 +157,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
 
-  public void setElevatorPower(double power){
-    elevator.set(power);
+  public void setElevatorPower(int power){
+    elevatorSetPosition+=power;
   }
 
   
@@ -198,11 +198,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void setElevatorFwd(){
-    setElevatorPower(1);
+    elevatorSetPosition += 1;
   }
 
   public void setElevatorRwd(){
-    setElevatorPower(-0.5);
+    // setElevatorPower(-0.5);
   }
   
   public void setElevatorOff(){

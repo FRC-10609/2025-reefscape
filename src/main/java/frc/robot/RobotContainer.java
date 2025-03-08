@@ -46,15 +46,16 @@ public class RobotContainer {
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   public final CoralDeliverySubsystem coralDelivery = new CoralDeliverySubsystem();
+  public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+
   public ParallelCommandGroup l0CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 0));
   public ParallelCommandGroup l1CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 1), new PivotSetPositionCmd(coralDelivery, 1));
   public ParallelCommandGroup l2CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 2), new PivotSetPositionCmd(coralDelivery, 2));
   public ParallelCommandGroup l3CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 3), new PivotSetPositionCmd(coralDelivery, 3));
   public ParallelCommandGroup l4CommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 4), new PivotSetPositionCmd(coralDelivery, 4));
-  ParallelCommandGroup algaeCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 5), new PivotSetPositionCmd(coralDelivery, 5));
-  ParallelCommandGroup cruisingCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 6));
+  public ParallelCommandGroup algaeCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 5), new PivotSetPositionCmd(coralDelivery, 5));
+  public ParallelCommandGroup cruisingCommandGroup = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 0), new PivotSetPositionCmd(coralDelivery, 6));
   public ParallelCommandGroup algaeCommandGroup2 = new ParallelCommandGroup(new ElevatorSetPositionCmd(elevatorSubsystem, 6), new PivotSetPositionCmd(coralDelivery, 5));
-  public final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
   
   //private final PdpSubsystem pdpSubsystem = new PdpSubsystem();
   
@@ -137,13 +138,17 @@ public class RobotContainer {
 
 
     Operator.Controller.a().onTrue(l0CommandGroup);
-    Operator.Controller.b().onTrue(l1CommandGroup);
+    Operator.Controller.b().onTrue(new AlgaeCmd(algaeSubsystem, 1));
     Operator.Controller.x().onTrue(l2CommandGroup);
     Operator.Controller.y().onTrue(l3CommandGroup);
     Operator.Controller.leftBumper().onTrue(l4CommandGroup);
-    Operator.Controller.rightTrigger().onTrue(algaeCommandGroup);
-    Operator.Controller.rightBumper().onTrue(algaeCommandGroup2);
+    // Operator.Controller.rightTrigger().onTrue(algaeCommandGroup);
+    Operator.Controller.rightBumper().onTrue(new AlgaeCmd(algaeSubsystem, 0));
     Operator.Controller.start().onTrue(cruisingCommandGroup);
+
+    Operator.Controller.povUp().whileTrue(new ElevatorPwrCmd(elevatorSubsystem, 1));
+    Operator.Controller.povDown().whileTrue(new ElevatorPwrCmd(elevatorSubsystem, -1));
+    Operator.Controller.rightTrigger().onTrue(new PivotSetPositionCmd(coralDelivery, 5));
 
 
     Driver.Controller.povUp().whileTrue(new LoadCoralCommand(coralDelivery));

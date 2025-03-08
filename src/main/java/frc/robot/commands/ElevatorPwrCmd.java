@@ -7,9 +7,9 @@ import frc.robot.subsystems.Elevator.ElevatorSubsystem;
 
 public class ElevatorPwrCmd extends Command {
     private final ElevatorSubsystem elevatorSubsystem;
-    private final Supplier<Double> power;
+    private final int power;
 
-    public ElevatorPwrCmd(ElevatorSubsystem elevatorSubsystem, Supplier<Double> power) {
+    public ElevatorPwrCmd(ElevatorSubsystem elevatorSubsystem, int power) {
         this.elevatorSubsystem = elevatorSubsystem;
         this.power = power;
         addRequirements(elevatorSubsystem);
@@ -22,11 +22,10 @@ public class ElevatorPwrCmd extends Command {
     
     @Override
     public void execute() {
-        elevatorSubsystem.setElevatorPower(power.get());        
+        elevatorSubsystem.setElevatorPower(power);        
     }
     @Override
     public void end(boolean interrupted){
-        elevatorSubsystem.setElevatorPower(0);
     }
     @Override
     public boolean isFinished() {

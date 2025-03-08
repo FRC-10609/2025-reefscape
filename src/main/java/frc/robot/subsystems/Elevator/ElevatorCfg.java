@@ -24,13 +24,12 @@ public class ElevatorCfg {
     public static final double ELEVATOR_MIN_OUTPUT = -0.25;
 
     public static final double ELEVATOR_LOAD_POSITION = 0.0;
-    public static final double ELEVATOR_LONE_POSITION = 50;
-    public static final double ELEVATOR_LTWO_POSITION = 30  ;
+    public static final double ELEVATOR_LONE_POSITION = 20.000000;
+    public static final double ELEVATOR_LTWO_POSITION = 20;
+    public static final double ELEVATOR_LTHREE_POSITION = 59;
+    public static final double ELEVATOR_LFOUR_POSITION =122.0;
+    // public static final double ELEVATOR_ALGAE_POSIITION = 63;
+    // public static final double ELEVATOR_ALGAE2_POSIITION = 100;
 
-    public static final double ELEVATOR_LTHREE_POSITION = 69.0;
-    public static final double ELEVATOR_LFOUR_POSITION =122;
-    public static final double ELEVATOR_ALGAE_POSIITION = 63;
-    public static final double ELEVATOR_ALGAE2_POSIITION = 100;
-
-    public static final double ELEVATOR_POSITIONS[] = {ELEVATOR_LOAD_POSITION, ELEVATOR_LONE_POSITION, ELEVATOR_LTWO_POSITION, ELEVATOR_LTHREE_POSITION, ELEVATOR_LFOUR_POSITION, ELEVATOR_ALGAE_POSIITION, ELEVATOR_ALGAE2_POSIITION};
+    public static final double ELEVATOR_POSITIONS[] = {ELEVATOR_LOAD_POSITION, ELEVATOR_LONE_POSITION, ELEVATOR_LTWO_POSITION, ELEVATOR_LTHREE_POSITION, ELEVATOR_LFOUR_POSITION};
 }

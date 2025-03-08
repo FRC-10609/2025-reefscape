@@ -58,11 +58,11 @@ public class DriverCommands extends Command {
     }
 
     if(Driver.Controller.getHID().getRightBumperButton()){
+      teleopSpeedGain = driver_gain;
+      teleopRotationGain = DrivebaseCfg.ROTATION_GAIN; // changed
+    }else{
       teleopSpeedGain = DrivebaseCfg.FINESSE_TRANSLATION_GAIN;
       teleopRotationGain = DrivebaseCfg.FINESSE_ROTATION_GAIN;
-    }else{
-      teleopSpeedGain = driver_gain;
-      teleopRotationGain = DrivebaseCfg.ROTATION_GAIN;
     }
     //Need to convert joystick input (-1 to 1) into m/s!!! 100% == MAX Attainable Speed
     forwardSpeed = ((MathUtil.applyDeadband(Driver.getLeftY(), 0.03)) * teleopSpeedGain) *

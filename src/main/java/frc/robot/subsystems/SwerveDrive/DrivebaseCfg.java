@@ -15,8 +15,8 @@ public class DrivebaseCfg {
     public static final double ROTATION_GAIN = 0.3;
     public static final double TRANSLATION_GAIN_1 = 0.75;
     public static final double TRANSLATION_GAIN_2 = 0.75;
-    public static final double FINESSE_ROTATION_GAIN = 0.05; //TODO: adjust
-    public static final double FINESSE_TRANSLATION_GAIN = 0.3;
+    public static final double FINESSE_ROTATION_GAIN = 0.3; //TODO: adjust
+    public static final double FINESSE_TRANSLATION_GAIN = 0.35;
     public static final double GO_STRAIGHT_GAIN = 0.1;
 
     public static final double MAX_SPEED_METERS_PER_SECOND = 4;//NEO Vortex w/ L3 MK4i
@@ -43,7 +43,7 @@ public class DrivebaseCfg {
     );
 
     //Rotiational Velocity is w = ((max_speed)/(2*pi*robot_radius))*(2*pi)
-    public static final double MAX_ROTATION_RADIANS_PER_SECOND = ((MAX_SPEED_METERS_PER_SECOND)/(Math.PI*WHEEL_BASE_DIAMETER))*(2*Math.PI);
+    public static final double MAX_ROTATION_RADIANS_PER_SECOND = ((MAX_SPEED_METERS_PER_SECOND)/((Math.PI*WHEEL_BASE_DIAMETER))*(Math.PI))/1.5;
 
     public static final boolean ADAPTIVE_LIMITING_ENABLED = false;
 }

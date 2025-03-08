@@ -19,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L1 Position"
+            "name": "L2 Position"
           }
         },
         {
@@ -31,13 +31,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Deliver Coral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "name": "Load Coral"
           }
         },
         {
@@ -56,18 +50,6 @@
           "type": "named",
           "data": {
             "name": "Loading Position"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Load Coral"
           }
         }
       ]

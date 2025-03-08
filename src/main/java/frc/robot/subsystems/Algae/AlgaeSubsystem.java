@@ -21,7 +21,7 @@ public class AlgaeSubsystem extends SubsystemBase  {
     private final double algae_i_gain = AlgaeCfg.ALGAE_I_GAIN;
     private final double algae_d_gain = AlgaeCfg.ALGAE_D_GAIN;
     private final RelativeEncoder algaeEncoder;
-    private int algaePos;
+    private double algaePos;
 
 
     public AlgaeSubsystem() {
@@ -43,7 +43,7 @@ public class AlgaeSubsystem extends SubsystemBase  {
         algaePIDConfig.p(algae_p_gain);
         algaePIDConfig.i(algae_i_gain);
         algaePIDConfig.d(algae_d_gain);
-        algaePIDConfig.outputRange(-0.3, 0.6);
+        algaePIDConfig.outputRange(-0.4, 0.2);
         algaeConfig.apply(algaePIDConfig);
 
         EncoderConfig algaeEncoderConfig = new EncoderConfig();
@@ -58,7 +58,7 @@ public class AlgaeSubsystem extends SubsystemBase  {
     @Override
     public void periodic(){
         updateDashboard();
-        setAlgaePosition(algaePos);
+        setPosition(algaePos);
     }
     
     public double getPosition(){
@@ -75,7 +75,7 @@ public class AlgaeSubsystem extends SubsystemBase  {
     }
 
     public void setAlgaePosition(int pos){
-        setPosition(AlgaeCfg.ALGAE_POSITIONS[pos]);
+        algaePos = AlgaeCfg.ALGAE_POSITIONS[pos];
     }
     
 
