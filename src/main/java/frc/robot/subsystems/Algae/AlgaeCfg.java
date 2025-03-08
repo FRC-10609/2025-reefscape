@@ -5,18 +5,20 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class AlgaeCfg {
-     public static final int LEFT_MOTOR_ID = 30;
-     public static final int RIGHT_MOTOR_ID = 31;
-     public static final SparkMax LEFT_MOTOR = new SparkMax(LEFT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
-     public static final SparkMax RIGHT_MOTOR = new SparkMax(RIGHT_MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
+     public static final int MOTOR_ID = 30;
+     public static final SparkMax MOTOR = new SparkMax(MOTOR_ID, SparkLowLevel.MotorType.kBrushless);
 
-     public static final double R_GEAR_RATIO = 1/9.0;
-     public static final double L_GEAR_RATIO = 1/9.0;
+     public static final double GEAR_RATIO = 1/9.0;
 
-     public static final SparkMaxConfig.IdleMode LEFT_IDLE_MODE = SparkMaxConfig.IdleMode.kBrake;
-     public static final SparkMaxConfig.IdleMode RIGHT_IDLE_MODE = SparkMaxConfig.IdleMode.kBrake;
-     public static final boolean LEFT_INVERTED = true;
-    public static final boolean RIGHT_INVERTED = false;
-    public static final int LEFT_AMP_LIMIT = 50;
-    public static final int RIGHT_AMP_LIMIT = 50;
+     public static final SparkMaxConfig.IdleMode ALGAE_IDLE_MODE = SparkMaxConfig.IdleMode.kBrake;
+    public static final boolean ALGAE_INVERTED = false;
+    public static final int ALGAE_AMP_LIMIT = 50;
+
+    public static final double ALGAE_P_GAIN = 0.2;
+    public static final double ALGAE_I_GAIN = 0;
+    public static final double ALGAE_D_GAIN = 0;
+
+    public static final double ALGAE_POS_1 = 0;
+    public static final double ALGAE_POS_2 = 1;
+    public static final double[] ALGAE_POSITIONS =  {ALGAE_POS_1, ALGAE_POS_2};
 }

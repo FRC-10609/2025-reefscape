@@ -3,28 +3,28 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Algae.AlgaeSubsystem;
 
-public class AlgaeIntakeCmd extends Command {
+public class AlgaeCmd extends Command {
     AlgaeSubsystem algaeSubsystem;
-    int in;
+    int pos;
 
-    public AlgaeIntakeCmd(AlgaeSubsystem algaeSubsystem, int in) {
+    public AlgaeCmd(AlgaeSubsystem algaeSubsystem, int pos) {
         this.algaeSubsystem = algaeSubsystem;
-        this.in = in;
+        this.pos = pos;
     }
 
     @Override 
     public void initialize(){
-        System.out.println("Algae Intake Command Initialized");
+        System.out.println("Algae Command Initialized");
     }
 
     @Override
     public void execute(){
-        algaeSubsystem.inTake(in);
+        algaeSubsystem.setAlgaePosition(pos);
     }
 
     @Override
     public void end(boolean interrupted){
-        algaeSubsystem.inTake(0);
+        System.out.print("Algae Command Ended");
     }
 
     @Override

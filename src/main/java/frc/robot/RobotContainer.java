@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.subsystems.Algae.AlgaeSubsystem;
 import frc.robot.subsystems.PowerManagement.MockDetector;
-import frc.robot.commands.AlgaeIntakeCmd;
+import frc.robot.commands.AlgaeCmd;
 import frc.robot.commands.DriverCommands;
 import frc.robot.commands.ResetGyro;
 import frc.robot.commands.StopDriveMotors;
@@ -154,8 +154,8 @@ public class RobotContainer {
     //Driver.Controller.b().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
     //Driver.Controller.x().whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    Driver.Controller.povLeft().whileTrue(new AlgaeIntakeCmd(algaeSubsystem, 1));
-    Driver.Controller.povRight().whileTrue(new AlgaeIntakeCmd(algaeSubsystem, -1));
+    Driver.Controller.povLeft().whileTrue(new AlgaeCmd(algaeSubsystem, 1));
+    Driver.Controller.povRight().whileTrue(new AlgaeCmd(algaeSubsystem, -1));
 
     /* sample code
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
