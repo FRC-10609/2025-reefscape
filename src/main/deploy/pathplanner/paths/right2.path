@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.988622047244094,
-        "y": 2.919488188976378
+        "x": 5.0468237704918035,
+        "y": 2.6883709016393436
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.228582677165354,
-        "y": 2.3390944881889766
+        "x": 4.2867844004130635,
+        "y": 2.107977200851942
       },
       "isLocked": false,
       "linkedName": "rightreef1"
     },
     {
       "anchor": {
-        "x": 1.3404330708661416,
-        "y": 0.7084645669291342
+        "x": 1.6183401639344261,
+        "y": 0.95015368852459
       },
       "prevControl": {
-        "x": 2.2386614173228345,
-        "y": 1.3994094488188977
+        "x": 2.516568510391119,
+        "y": 1.6410985704143535
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 600.0,
     "maxAngularAcceleration": 1799.0,
     "nominalVoltage": 12.0,

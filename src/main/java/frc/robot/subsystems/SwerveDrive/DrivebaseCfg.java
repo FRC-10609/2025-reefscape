@@ -13,8 +13,8 @@ public class DrivebaseCfg {
 
     //Driver constants
     public static final double ROTATION_GAIN = 0.3;
-    public static final double TRANSLATION_GAIN_1 = 1;
-    public static final double TRANSLATION_GAIN_2 = 1;
+    public static final double TRANSLATION_GAIN_1 = 0.75;
+    public static final double TRANSLATION_GAIN_2 = 0.75;
     public static final double FINESSE_ROTATION_GAIN = 0.05; //TODO: adjust
     public static final double FINESSE_TRANSLATION_GAIN = 0.3;
     public static final double GO_STRAIGHT_GAIN = 0.1;

@@ -42,7 +42,7 @@ public class CoralDeliveryCfg {
 
      public static final int CORAL_PRESENT_THRESH_MM = 15;
 
-     public static final double PIVOT_LOAD_POSITION = 1.426696;
+     public static final double PIVOT_LOAD_POSITION = 1.376696;
      public static final double PIVOT_LONE_POSITION = 0.784791;
      public static final double PIVOT_LTWO_POSITION = 0.794791;
      public static final double PIVOT_LTHREE_POSITION = 0.774791;

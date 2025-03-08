@@ -65,10 +65,10 @@ public class DriverCommands extends Command {
       teleopRotationGain = DrivebaseCfg.ROTATION_GAIN;
     }
     //Need to convert joystick input (-1 to 1) into m/s!!! 100% == MAX Attainable Speed
-    forwardSpeed = ((MathUtil.applyDeadband(Driver.getLeftY(), 0.1)) * teleopSpeedGain) *
+    forwardSpeed = ((MathUtil.applyDeadband(Driver.getLeftY(), 0.03)) * teleopSpeedGain) *
         DrivebaseCfg.MAX_SPEED_METERS_PER_SECOND;
 
-    strafeSpeed = ((MathUtil.applyDeadband(Driver.getLeftX(), 0.1)) * teleopSpeedGain) *
+    strafeSpeed = ((MathUtil.applyDeadband(Driver.getLeftX(), 0.03)) * teleopSpeedGain) *
         DrivebaseCfg.MAX_SPEED_METERS_PER_SECOND;
 
     //Need to convert joystick input (-1 to 1) into rad/s!!! 100% == MAX Attainable Rotation
@@ -76,7 +76,7 @@ public class DriverCommands extends Command {
         calculateDriveMagnitude(teleopRotationGain)) *
         DrivebaseCfg.MAX_ROTATION_RADIANS_PER_SECOND);*/
         
-      rotationSpeed = ((MathUtil.applyDeadband(Driver.getRightX(), 0.1)) * 
+      rotationSpeed = ((MathUtil.applyDeadband(Driver.getRightX(), 0.03)) * 
         calculateDriveMagnitude(teleopRotationGain)) * DrivebaseCfg.MAX_ROTATION_RADIANS_PER_SECOND;
 
     SmartDashboard.putNumber("Forward In", forwardSpeed);
@@ -90,9 +90,9 @@ public class DriverCommands extends Command {
         rotationSpeed, // Rotate
         Driver.Controller.leftBumper().getAsBoolean()); // brake
     
-      drive.drive(-speedCommand.forwardSpeed, -speedCommand.strafeSpeed, -speedCommand.rotationSpeed, true);
+      drive.drive(-speedCommand.forwardSpeed, -speedCommand.strafeSpeed, -speedCommand.rotationSpeed, false);
     }else{
-      drive.drive(-forwardSpeed, -strafeSpeed, -rotationSpeed, true);
+      drive.drive(-forwardSpeed, -strafeSpeed, -rotationSpeed, false);
     }
 
   }

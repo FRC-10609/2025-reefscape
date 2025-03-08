@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Cruising Position"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L1 Position"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Deliver Coral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Cruising Position"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Loading Position"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Load Coral"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

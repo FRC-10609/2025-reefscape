@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.973501712328767,
-        "y": 5.2195419520547945
+        "x": 5.0468237704918035,
+        "y": 5.409579918032787
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.366771653543307,
-        "y": 5.614173228346456
+        "x": 4.440093711706344,
+        "y": 5.804211194324448
       },
       "isLocked": false,
       "linkedName": "leftreef1"
     },
     {
       "anchor": {
-        "x": 1.450984251968504,
-        "y": 7.203346456692913
+        "x": 1.5584016393442621,
+        "y": 7.123821721311475
       },
       "prevControl": {
-        "x": 2.045196850393701,
-        "y": 6.83023622047244
+        "x": 2.15261423776946,
+        "y": 6.750711485091002
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 600.0,
     "maxAngularAcceleration": 1799.0,
     "nominalVoltage": 12.0,
